@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" class="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gallery — Sebastian Brinkworth</title>
+  <meta name="description" content="Photo gallery of work and projects by Sebastian Brinkworth." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/effects.css" />
+  <link rel="stylesheet" href="css/gallery-page.css" />
+</head>
+
+<body>
+  <!-- Background Effects -->
+  <div id="field-bg" aria-hidden="true">
+    <div id="field-grid"></div>
+  </div>
+  <div class="grain grain-light" aria-hidden="true"></div>
+  <div class="grain grain-dark" aria-hidden="true"></div>
+
+  <!-- Page Transition Overlay -->
+  <div class="page-transition-overlay" id="pageTransition"></div>
+
+  <!-- Navigation -->
+  <a href="index.html" class="nav-back" aria-label="Back to home">
+    <span class="ms">arrow_back</span>
+  </a>
+
+  <!-- Theme Toggle -->
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+    <span id="themeIcon" class="ms">dark_mode</span>
+  </button>
+
+  <main class="wrap gallery-wrap">
+    <!-- Header -->
+    <header class="gallery-header">
+      <h1>Gallery</h1>
+      <p class="subtitle">A collection of work and moments</p>
+    </header>
+
+    <!-- Gallery Grid -->
+    <section class="gallery-container" aria-label="Photo Gallery">
+      <div class="gallery-masonry" id="galleryGrid">
+        <!-- Gallery items will be loaded here -->
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" aria-label="Contact">
+      <nav class="links" aria-label="Social links">
+        <a href="https://www.linkedin.com/in/sebastian-brinkworth/" target="_blank" rel="noreferrer">LinkedIn</a>
+        <span class="dot" aria-hidden="true">•</span>
+        <a href="https://github.com/sebbrinkworth/" target="_blank" rel="noreferrer">GitHub</a>
+        <span class="dot" aria-hidden="true">•</span>
+        <a href="mailto:sebastian.brinkworth@gmail.com">Email</a>
+      </nav>
+      <p class="copy">© <span id="year"></span> Sebastian Brinkworth.</p>
+    </footer>
+  </main>
+
+  <!-- Lightbox Modal -->
+  <dialog class="lightbox-modal" id="lightbox" aria-label="Image lightbox">
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">
+      <span class="ms">close</span>
+    </button>
+    <div class="lightbox-content">
+      <div class="lightbox-image-container" id="lightboxImageContainer">
+        <img id="lightboxImage" src="" alt="" loading="eager" />
+      </div>
+      <div class="lightbox-info" id="lightboxInfo">
+        <h3 id="lightboxTitle"></h3>
+        <p id="lightboxDescription"></p>
+      </div>
+    </div>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">
+      <span class="ms">chevron_left</span>
+    </button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">
+      <span class="ms">chevron_right</span>
+    </button>
+  </dialog>
+
+  <!-- Scripts -->
+  <script type="module" src="js/gallery-page.js"></script>
+</body>
+
+</html>
