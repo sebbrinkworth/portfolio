@@ -141,23 +141,19 @@
   display: flow-root;
 }
 
-/* Timeline line - starts at very top of page, continues through timeline section */
+/* Timeline line - starts at Professional Timeline section, continues through to Education */
 .timeline-body {
   position: relative;
 }
 
 .timeline-body::before {
   content: "";
-  position: fixed;
+  position: absolute;
   top: 0;
-  bottom: auto;
+  bottom: 0;
   left: 14px;
   width: 1px;
-  height: 100%;
-  background: linear-gradient(to bottom,
-    rgb(var(--border) / 0.12) 0%,
-    rgb(var(--border) / 0.12) 70%,
-    transparent 100%);
+  background: rgb(var(--border) / 0.12);
   z-index: 0;
   pointer-events: none;
 }
@@ -278,28 +274,28 @@
   }
 }
 
-/* Timeline divider */
+/* Timeline divider - visual spacing only, no line */
 .timeline-divider {
-  position: relative;
+  width: 100%;
+  max-width: 48rem;
+  height: 64px;
+  margin: 0;
+}
+
+/* Section divider after skills */
+.section-divider {
   width: 100%;
   max-width: 48rem;
   height: 64px;
   margin: 0 0 64px;
 }
 
-.timeline-divider {
-  position: relative;
-  width: 100%;
-  max-width: 48rem;
-  height: 64px;
-  margin: 0 0 64px;
-}
-
-/* Skills */
+/* Skills - centered like timeline */
 .skills {
   width: 100%;
+  max-width: 48rem;
+  margin: 0 auto;
   text-align: center;
-  padding-bottom: 2em;
 }
 
 .skills ul {
@@ -376,151 +372,6 @@ footer {
   font-size: 12px;
   font-weight: 700;
   color: rgb(var(--fg) / 0.4);
-}
-
-/* Education Section - Line continues after skills */
-.education-line {
-  position: relative;
-  width: 100%;
-  max-width: 48rem;
-  height: 30px;
-  margin: 0;
-}
-
-.education-line::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 14px;
-  width: 1px;
-  background: rgb(var(--border) / 0.12);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
-}
-
-@media (min-width: 768px) {
-  .education-line::before {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
-
-.education {
-  width: 100%;
-  max-width: 48rem;
-  margin: 0 auto;
-  position: relative;
-  padding-bottom: 80px;
-}
-
-/* Line that goes through education section and fades at bottom - connects seamlessly with education-line */
-.education::after {
-  content: "";
-  position: absolute;
-  top: -30px;
-  bottom: 0;
-  left: 14px;
-  width: 1px;
-  background: linear-gradient(to bottom,
-      rgb(var(--border) / 0.12) 0%,
-      rgb(var(--border) / 0.12) 70%,
-      transparent 100%);
-  z-index: 0;
-  pointer-events: none;
-}
-
-@media (min-width: 768px) {
-  .education::after {
-    left: 50%;
-    transform: translateX(-50%);
-    top: -30px;
-  }
-}
-
-.education .section-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 0 0 44px;
-  width: 100%;
-}
-
-.education-item {
-  position: relative;
-  display: grid;
-  gap: 14px;
-  padding: 2px 0 2px 42px;
-  margin: 0;
-}
-
-.education-item .t-dot {
-  position: absolute;
-  left: 14px;
-  top: 14px;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: rgb(var(--bg));
-  border: 2px solid rgb(var(--border) / 0.22);
-  transform: translateX(-50%);
-  z-index: 2;
-}
-
-.education-item:hover .t-dot {
-  border-color: rgb(var(--primary));
-}
-
-.education-item .t-content h3 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 800;
-  color: rgb(var(--fg) / 0.92);
-}
-
-.education-item:hover .t-content h3 {
-  color: rgb(var(--primary));
-}
-
-.education-item .t-meta {
-  margin-top: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  color: rgb(var(--muted));
-}
-
-.education-item .t-desc {
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.65;
-  color: rgb(var(--fg) / 0.62);
-}
-
-@media (min-width: 768px) {
-  .education-item {
-    grid-template-columns: 1fr 1fr;
-    padding-left: 0;
-    gap: 0;
-    column-gap: 4rem;
-  }
-
-  .education-item .t-dot {
-    left: 50%;
-  }
-
-  /* Education is on the right side (following timeline pattern) */
-  .education-item .t-date-wrap {
-    grid-column: 2;
-    justify-self: start;
-    text-align: left;
-  }
-
-  .education-item .t-content {
-    grid-column: 2;
-    justify-self: start;
-    text-align: left;
-  }
 }
 
 /* SPA View Management */
