@@ -1,4 +1,5 @@
-import { escapeHtml } from './utils.js';
+import { escapeHtml } from './utils';
+import type { TimelineItem } from '../types';
 
 /**
  * Load and render timeline data from JSON
@@ -7,12 +8,12 @@ import { escapeHtml } from './utils.js';
  * 
  * Performance: < 50ms for 100 items
  * 
- * @returns {Promise<void>}
+ * @returns Promise<void>
  */
-export async function loadTimeline() {
+export async function loadTimeline(): Promise<void> {
   try {
     const response = await fetch('data/timeline.json');
-    const timeline = await response.json();
+    const timeline: TimelineItem[] = await response.json();
     
     const timelineEl = document.getElementById("timeline");
     if (!timelineEl) return;

@@ -32,14 +32,14 @@ export default defineConfig({
     
     // Benchmark configuration
     benchmark: {
-      include: ['**/*.bench.js'],
+      include: ['**/*.bench.ts'],
       outputFile: './benchmark-results.json',
       reporter: ['verbose']
     },
     
     // Global setup
     globals: true,
-    setupFiles: ['./tests/setup/setup.js'],
+    setupFiles: ['./tests/setup/setup.ts'],
     
     // Performance budget for tests
     testTimeout: 5000,

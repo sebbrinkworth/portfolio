@@ -522,3 +522,38 @@ footer {
     text-align: left;
   }
 }
+
+/* SPA View Management */
+.view {
+  display: none;
+  width: 100%;
+}
+
+.view.active {
+  display: block;
+}
+
+/* Gallery view header overrides */
+#gallery-view .gallery-header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+#gallery-view .gallery-header h1 {
+  margin: 0;
+  font-size: 40px;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+#gallery-view .gallery-header .subtitle {
+  margin-top: 14px;
+}
+
+@media (min-width: 768px) {
+  #gallery-view .gallery-header h1 {
+    font-size: 54px;
+  }
+}

@@ -1,4 +1,6 @@
-export function initVectorField() {
+import type { VectorFieldConfig, VectorFieldDash } from '../types';
+
+export function initVectorField(): void {
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduceMotion) return;
 
@@ -6,7 +8,7 @@ export function initVectorField() {
   const grid = document.getElementById("field-grid");
   if (!bg || !grid) return;
 
-  const CFG = {
+  const CFG: VectorFieldConfig = {
     cell: 40,
     radius: 140,
     baseOpacity: 0.08,
@@ -18,17 +20,17 @@ export function initVectorField() {
     overscan: 120,
   };
 
-  const dashes = [];
+  const dashes: VectorFieldDash[] = [];
   let tx = innerWidth / 2,
     ty = innerHeight / 2;
   let cx = tx,
     cy = ty;
   let isVisible = true;
-  let rafId = null;
+  let rafId: number | null = null;
 
-  const shortestAngleDelta = (from, to) => ((to - from + 540) % 360) - 180;
+  const shortestAngleDelta = (from: number, to: number): number => ((to - from + 540) % 360) - 180;
 
-  const build = () => {
+  const build = (): void => {
     grid.textContent = "";
     dashes.length = 0;
 
@@ -79,7 +81,7 @@ export function initVectorField() {
 
   addEventListener(
     "pointermove",
-    (e) => {
+    (e: PointerEvent) => {
       if (e.pointerType === "touch") return;
       tx = e.clientX;
       ty = e.clientY;
@@ -97,7 +99,7 @@ export function initVectorField() {
 
   build();
 
-  const tick = () => {
+  const tick = (): void => {
     if (!isVisible) {
       rafId = null;
       return;

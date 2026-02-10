@@ -1,6 +1,6 @@
 # Sebastian Brinkworth - CV/Portfolio
 
-A modern, responsive CV/Portfolio website built with vanilla HTML, CSS, and JavaScript.
+A modern, responsive CV/Portfolio website built with Vite, TypeScript, HTML, CSS, and JavaScript.
 
 ## 🚀 Features
 
@@ -18,25 +18,21 @@ A modern, responsive CV/Portfolio website built with vanilla HTML, CSS, and Java
 cv/
 ├── index.html             # Main CV page
 ├── gallery.html           # Photo gallery page
-├── css/
-│   ├── base.css          # CSS variables, resets, typography
-│   ├── layout.css        # Container, grid, wrapper styles
-│   ├── components.css    # Cards, buttons, avatar, timeline, skills
-│   ├── effects.css       # Background animations, grain, themes
-│   ├── gallery.css       # Gallery base styles
-│   └── gallery-page.css  # Gallery page & lightbox styles
-├── js/
-│   ├── main.js           # Main page entry point
-│   ├── gallery-page.js   # Gallery page with lightbox
-│   ├── theme.js          # Theme toggle logic
-│   ├── timeline.js       # Timeline rendering from JSON
-│   ├── skills.js         # Skills rendering from JSON
-│   ├── vector-field.js   # Background animation
-│   └── utils.js          # Shared utilities
-├── data/
-│   ├── timeline.json     # Professional timeline data
-│   ├── skills.json       # Skills data
-│   └── gallery.json      # Gallery data
+├── css/                   # Stylesheets
+├── ts/                    # TypeScript source files
+│   ├── main.ts           # Main page entry point
+│   ├── gallery-page.ts   # Gallery page with lightbox
+│   ├── theme.ts          # Theme toggle logic
+│   ├── timeline.ts       # Timeline rendering from JSON
+│   ├── skills.ts         # Skills rendering from JSON
+│   ├── vector-field.ts   # Background animation
+│   ├── utils.ts          # Shared utilities
+│   └── router.ts         # SPA routing logic
+├── data/                  # JSON data files
+├── tests/                 # Test suite (Vitest)
+├── scripts/               # Build/optimization scripts
+├── vite.config.ts        # Vite configuration
+├── package.json          # Dependencies and scripts
 └── .gitignore
 ```
 
@@ -44,25 +40,34 @@ cv/
 
 ### Prerequisites
 
-- A modern web browser
-- A local server (for ES6 modules support)
+- Node.js (v18 or higher)
+- npm
+
+### Installation
+
+```bash
+npm install
+```
 
 ### Running Locally
 
-#### Option 1: Python
 ```bash
-python -m http.server 8000
-# Visit http://localhost:8000
+npm run dev
+# Visit http://localhost:5173
 ```
 
-#### Option 2: Node.js (http-server)
+### Build for Production
+
 ```bash
-npx http-server
-# Visit http://localhost:8080
+npm run build
 ```
 
-#### Option 3: VS Code Live Server
-Install the "Live Server" extension and click "Go Live"
+### Preview Production Build
+
+```bash
+npm run serve
+# Visit http://localhost:4173
+```
 
 ## 📝 Adding Content
 

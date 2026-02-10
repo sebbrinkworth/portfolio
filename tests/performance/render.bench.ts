@@ -1,7 +1,7 @@
-import { bench, describe } from 'vitest';
-import { escapeHtml } from '../../js/utils.js';
-import { loadTimeline } from '../../js/timeline.js';
-import { loadSkills } from '../../js/skills.js';
+import { bench, describe, beforeEach } from 'vitest';
+import { escapeHtml } from '../../js/utils';
+import { loadTimeline } from '../../js/timeline';
+import { loadSkills } from '../../js/skills';
 
 describe('Rendering Performance', () => {
   beforeEach(() => {
@@ -34,7 +34,9 @@ describe('Rendering Performance', () => {
       desc: 'Description'
     }));
     
-    global.fetch = () => Promise.resolve({ json: () => Promise.resolve(data) });
+    global.fetch = () => Promise.resolve({ 
+      json: () => Promise.resolve(data) 
+    }) as unknown as Promise<Response>;
     await loadTimeline();
   });
 
@@ -47,7 +49,9 @@ describe('Rendering Performance', () => {
       desc: 'Description'
     }));
     
-    global.fetch = () => Promise.resolve({ json: () => Promise.resolve(data) });
+    global.fetch = () => Promise.resolve({ 
+      json: () => Promise.resolve(data) 
+    }) as unknown as Promise<Response>;
     await loadTimeline();
   }, { time: 2000 });
 
@@ -57,7 +61,9 @@ describe('Rendering Performance', () => {
       label: `Skill ${i}`
     }));
     
-    global.fetch = () => Promise.resolve({ json: () => Promise.resolve(data) });
+    global.fetch = () => Promise.resolve({ 
+      json: () => Promise.resolve(data) 
+    }) as unknown as Promise<Response>;
     await loadSkills();
   });
 });

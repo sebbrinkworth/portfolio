@@ -12,3 +12,5 @@ node_modules/
 *.swo
 nul
 coverage/
+dist/
+*.js.map

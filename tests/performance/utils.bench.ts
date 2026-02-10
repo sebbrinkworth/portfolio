@@ -1,5 +1,5 @@
 import { bench, describe } from 'vitest';
-import { escapeHtml } from '../../js/utils.js';
+import { escapeHtml } from '../../js/utils';
 
 describe('escapeHtml Performance', () => {
   const shortInput = '<script>alert("XSS")</script>';

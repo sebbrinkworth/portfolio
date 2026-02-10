@@ -1,15 +1,16 @@
-import { initTheme } from './theme.js';
-import { escapeHtml } from './utils.js';
+import { initTheme } from './theme';
+import { escapeHtml } from './utils';
+import type { GalleryItem } from '../types';
 
 // Gallery state
-let galleryData = [];
+let galleryData: GalleryItem[] = [];
 let currentIndex = 0;
 
 // DOM Elements
-const galleryGrid = document.getElementById('galleryGrid');
-const lightboxOverlay = document.getElementById('lightboxOverlay');
-const lightboxExpander = document.getElementById('lightboxExpander');
-const lightboxImage = document.getElementById('lightboxImage');
+const galleryGrid = document.getElementById('galleryGrid') as HTMLElement | null;
+const lightboxOverlay = document.getElementById('lightboxOverlay') as HTMLElement | null;
+const lightboxExpander = document.getElementById('lightboxExpander') as HTMLElement | null;
+const lightboxImage = document.getElementById('lightboxImage') as HTMLImageElement | null;
 
 // Initialize gallery page
 document.addEventListener('DOMContentLoaded', () => {
@@ -25,10 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Load gallery data
-async function loadGallery() {
+async function loadGallery(): Promise<void> {
   try {
     const response = await fetch('data/gallery.json');
-    galleryData = await response.json();
+    galleryData = await response.json() as GalleryItem[];
     
     if (galleryData.length === 0) {
       showEmptyState();
@@ -43,7 +44,9 @@ async function loadGallery() {
 }
 
 // Show empty state
-function showEmptyState() {
+function showEmptyState(): void {
+  if (!galleryGrid) return;
+  
   galleryGrid.innerHTML = `
     <div class="gallery-empty" style="
       grid-column: 1 / -1;
@@ -59,7 +62,9 @@ function showEmptyState() {
 }
 
 // Render gallery grid
-function renderGallery() {
+function renderGallery(): void {
+  if (!galleryGrid) return;
+  
   galleryGrid.innerHTML = galleryData.map((item, index) => {
     const ratio = item.ratio || 'square';
     const hasWebp = item.thumbnailWebp || item.srcWebp;
@@ -75,7 +80,7 @@ function renderGallery() {
         ${hasWebp ? `
         <picture>
           <source 
-            srcset="${escapeHtml(item.thumbnailWebp || item.srcWebp)}" 
+            srcset="${escapeHtml(item.thumbnailWebp || item.srcWebp || '')}" 
             type="image/webp"
           />
           <img 
@@ -100,14 +105,15 @@ function renderGallery() {
   // Add click handlers to gallery items
   document.querySelectorAll('.gallery-item').forEach(item => {
     item.addEventListener('click', () => {
-      const index = parseInt(item.dataset.index);
+      const index = parseInt((item as HTMLElement).dataset.index || '0');
       openLightbox(index);
     });
     
-    item.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+    item.addEventListener('keydown', (e: Event) => {
+      const keyEvent = e as KeyboardEvent;
+      if (keyEvent.key === 'Enter' || keyEvent.key === ' ') {
         e.preventDefault();
-        const index = parseInt(item.dataset.index);
+        const index = parseInt((item as HTMLElement).dataset.index || '0');
         openLightbox(index);
       }
     });
@@ -115,7 +121,9 @@ function renderGallery() {
 }
 
 // Open lightbox (instant, no animation)
-function openLightbox(index) {
+function openLightbox(index: number): void {
+  if (!lightboxImage || !lightboxOverlay || !lightboxExpander) return;
+  
   currentIndex = index;
   
   const item = galleryData[currentIndex];
@@ -143,7 +151,9 @@ function openLightbox(index) {
 }
 
 // Close lightbox (instant, no animation)
-function closeLightbox() {
+function closeLightbox(): void {
+  if (!lightboxOverlay || !lightboxExpander) return;
+  
   // Hide overlay
   lightboxOverlay.classList.remove('active');
   document.body.style.overflow = '';
@@ -151,8 +161,8 @@ function closeLightbox() {
 }
 
 // Navigate to next image (instant)
-function nextImage() {
-  if (galleryData.length <= 1) return;
+function nextImage(): void {
+  if (!lightboxImage || galleryData.length <= 1) return;
   
   currentIndex = (currentIndex + 1) % galleryData.length;
   const item = galleryData[currentIndex];
@@ -162,8 +172,8 @@ function nextImage() {
 }
 
 // Navigate to previous image (instant)
-function prevImage() {
-  if (galleryData.length <= 1) return;
+function prevImage(): void {
+  if (!lightboxImage || galleryData.length <= 1) return;
   
   currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
   const item = galleryData[currentIndex];
@@ -173,7 +183,9 @@ function prevImage() {
 }
 
 // Setup event listeners
-function setupEventListeners() {
+function setupEventListeners(): void {
+  if (!lightboxOverlay || !lightboxExpander) return;
+  
   // Click on overlay (outside image) to close
   lightboxOverlay.addEventListener('click', (e) => {
     if (e.target === lightboxOverlay) {
@@ -233,7 +245,7 @@ function setupEventListeners() {
     handleSwipe();
   }, { passive: true });
   
-  function handleSwipe() {
+  function handleSwipe(): void {
     const swipeThreshold = 50;
     const diff = touchStartX - touchEndX;
     

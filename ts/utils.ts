@@ -5,14 +5,14 @@
  * Time Complexity: O(n) where n is input string length
  * Space Complexity: O(n) for the output string
  * 
- * @param {string} str - Input string to escape
- * @returns {string} Escaped HTML string
+ * @param str - Input string to escape
+ * @returns Escaped HTML string
  * 
  * @example
  * escapeHtml('<script>alert("XSS")</script>')
  * // Returns: '&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;'
  */
-export function escapeHtml(str) {
+export function escapeHtml(str: string | number | null | undefined): string {
   return String(str)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")

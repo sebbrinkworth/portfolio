@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { loadTimeline } from '../../js/timeline.js';
+import { loadTimeline } from '../../js/timeline';
 
 describe('loadTimeline', () => {
   beforeEach(() => {
@@ -22,12 +22,12 @@ describe('loadTimeline', () => {
     
     global.fetch = vi.fn(() => 
       Promise.resolve({ json: () => Promise.resolve(mockData) })
-    );
+    ) as unknown as typeof fetch;
     
     await loadTimeline();
     
     const timeline = document.getElementById('timeline');
-    expect(timeline.querySelectorAll('.t-item')).toHaveLength(1);
+    expect(timeline?.querySelectorAll('.t-item')).toHaveLength(1);
   });
 
   it('renders correct HTML structure with all fields', async () => {
@@ -41,15 +41,15 @@ describe('loadTimeline', () => {
     
     global.fetch = vi.fn(() => 
       Promise.resolve({ json: () => Promise.resolve(mockData) })
-    );
+    ) as unknown as typeof fetch;
     
     await loadTimeline();
     
     const item = document.querySelector('.t-item');
-    expect(item.querySelector('.t-date').textContent).toBe('2024 - Present');
-    expect(item.querySelector('.t-content h3').textContent).toBe('Developer');
-    expect(item.querySelector('.t-meta').textContent).toBe('Company — City');
-    expect(item.querySelector('.t-desc').textContent).toBe('Description');
+    expect(item?.querySelector('.t-date')?.textContent).toBe('2024 - Present');
+    expect(item?.querySelector('.t-content h3')?.textContent).toBe('Developer');
+    expect(item?.querySelector('.t-meta')?.textContent).toBe('Company — City');
+    expect(item?.querySelector('.t-desc')?.textContent).toBe('Description');
   });
 
   it('renders alternating left/right classes', async () => {
@@ -61,7 +61,7 @@ describe('loadTimeline', () => {
     
     global.fetch = vi.fn(() => 
       Promise.resolve({ json: () => Promise.resolve(mockData) })
-    );
+    ) as unknown as typeof fetch;
     
     await loadTimeline();
     
@@ -82,33 +82,33 @@ describe('loadTimeline', () => {
     
     global.fetch = vi.fn(() => 
       Promise.resolve({ json: () => Promise.resolve(mockData) })
-    );
+    ) as unknown as typeof fetch;
     
     await loadTimeline();
     
     const timeline = document.getElementById('timeline');
-    const dateEl = timeline.querySelector('.t-date');
-    const roleEl = timeline.querySelector('.t-content h3');
+    const dateEl = timeline?.querySelector('.t-date');
+    const roleEl = timeline?.querySelector('.t-content h3');
     
     // Verify content is displayed as text, not executed as HTML/script
     // If not escaped, the browser would try to execute these as tags
-    expect(dateEl.textContent).toBe('<script>alert(1)</script>');
-    expect(roleEl.textContent).toBe('<img src=x onerror=alert(2)>');
+    expect(dateEl?.textContent).toBe('<script>alert(1)</script>');
+    expect(roleEl?.textContent).toBe('<img src=x onerror=alert(2)>');
     
     // Verify no script elements were created (XSS prevention)
-    expect(timeline.querySelector('script')).toBeNull();
-    expect(timeline.querySelector('img')).toBeNull();
+    expect(timeline?.querySelector('script')).toBeNull();
+    expect(timeline?.querySelector('img')).toBeNull();
   });
 
   it('handles empty timeline gracefully', async () => {
     global.fetch = vi.fn(() => 
       Promise.resolve({ json: () => Promise.resolve([]) })
-    );
+    ) as unknown as typeof fetch;
     
     await loadTimeline();
     
     const timeline = document.getElementById('timeline');
-    expect(timeline.innerHTML).toBe('');
+    expect(timeline?.innerHTML).toBe('');
   });
 
   it('exits gracefully if timeline element missing', async () => {
@@ -116,7 +116,7 @@ describe('loadTimeline', () => {
     
     global.fetch = vi.fn(() => 
       Promise.resolve({ json: () => Promise.resolve([{dates: '2024'}]) })
-    );
+    ) as unknown as typeof fetch;
     
     await expect(loadTimeline()).resolves.not.toThrow();
   });
@@ -124,7 +124,7 @@ describe('loadTimeline', () => {
   it('logs error when fetch fails', async () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     
-    global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+    global.fetch = vi.fn(() => Promise.reject(new Error('Network error'))) as unknown as typeof fetch;
     
     await loadTimeline();
     
@@ -139,7 +139,7 @@ describe('loadTimeline', () => {
       Promise.resolve({ 
         json: () => Promise.reject(new Error('Invalid JSON')) 
       })
-    );
+    ) as unknown as typeof fetch;
     
     await loadTimeline();
     
@@ -158,7 +158,7 @@ describe('loadTimeline', () => {
     
     global.fetch = vi.fn(() => 
       Promise.resolve({ json: () => Promise.resolve(mockData) })
-    );
+    ) as unknown as typeof fetch;
     
     const start = performance.now();
     await loadTimeline();
@@ -179,7 +179,7 @@ describe('loadTimeline', () => {
     
     global.fetch = vi.fn(() => 
       Promise.resolve({ json: () => Promise.resolve(mockData) })
-    );
+    ) as unknown as typeof fetch;
     
     const start = performance.now();
     await loadTimeline();

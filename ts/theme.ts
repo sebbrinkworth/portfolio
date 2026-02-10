@@ -2,9 +2,9 @@
  * Initialize theme toggle functionality
  * Handles localStorage persistence and DOM class toggling.
  * 
- * @returns {void}
+ * @returns void
  */
-export function initTheme() {
+export function initTheme(): void {
   const root = document.documentElement;
   const btn = document.getElementById("themeToggle");
   const icon = document.getElementById("themeIcon");
@@ -18,7 +18,7 @@ export function initTheme() {
   }
 
   // Sync icon with current theme
-  const syncIcon = () => {
+  const syncIcon = (): void => {
     if (!icon) return;
     icon.textContent = root.classList.contains("dark") 
       ? "light_mode" 

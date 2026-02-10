@@ -1,4 +1,5 @@
-import { escapeHtml } from './utils.js';
+import { escapeHtml } from './utils';
+import type { Skill } from '../types';
 
 /**
  * Load and render skills data from JSON
@@ -6,12 +7,12 @@ import { escapeHtml } from './utils.js';
  * 
  * Performance: < 30ms for 50 items
  * 
- * @returns {Promise<void>}
+ * @returns Promise<void>
  */
-export async function loadSkills() {
+export async function loadSkills(): Promise<void> {
   try {
     const response = await fetch('data/skills.json');
-    const skills = await response.json();
+    const skills: Skill[] = await response.json();
     
     const skillsEl = document.getElementById("skills");
     if (!skillsEl) return;

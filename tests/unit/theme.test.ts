@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { initTheme } from '../../js/theme.js';
-import { createLocalStorageMock } from '../setup/mocks/local-storage.js';
+import { initTheme } from '../../js/theme';
+import { createLocalStorageMock } from '../setup/mocks/local-storage';
+import type { LocalStorageMock } from '../setup/mocks/local-storage';
 
 describe('initTheme', () => {
-  let mockStorage;
+  let mockStorage: LocalStorageMock;
   
   beforeEach(() => {
     // Setup DOM
@@ -30,7 +31,7 @@ describe('initTheme', () => {
     initTheme();
     
     expect(document.documentElement.classList.contains('dark')).toBe(true);
-    expect(document.getElementById('themeIcon').textContent).toBe('light_mode');
+    expect(document.getElementById('themeIcon')?.textContent).toBe('light_mode');
   });
 
   it('applies stored light theme on initialization', () => {
@@ -38,18 +39,18 @@ describe('initTheme', () => {
     initTheme();
     
     expect(document.documentElement.classList.contains('dark')).toBe(false);
-    expect(document.getElementById('themeIcon').textContent).toBe('dark_mode');
+    expect(document.getElementById('themeIcon')?.textContent).toBe('dark_mode');
   });
 
   it('toggles to dark theme on button click', () => {
     initTheme();
     const btn = document.getElementById('themeToggle');
     
-    btn.click();
+    btn?.click();
     
     expect(document.documentElement.classList.contains('dark')).toBe(true);
     expect(mockStorage.getItem('theme')).toBe('dark');
-    expect(document.getElementById('themeIcon').textContent).toBe('light_mode');
+    expect(document.getElementById('themeIcon')?.textContent).toBe('light_mode');
   });
 
   it('toggles to light theme on button click', () => {
@@ -57,10 +58,10 @@ describe('initTheme', () => {
     initTheme();
     const btn = document.getElementById('themeToggle');
     
-    btn.click();
+    btn?.click();
     
     expect(document.documentElement.classList.contains('dark')).toBe(false);
     expect(mockStorage.getItem('theme')).toBe('light');
-    expect(document.getElementById('themeIcon').textContent).toBe('dark_mode');
+    expect(document.getElementById('themeIcon')?.textContent).toBe('dark_mode');
   });
 });
