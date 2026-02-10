@@ -12,7 +12,7 @@ import type { TimelineItem } from '../types';
  */
 export async function loadTimeline(): Promise<void> {
   try {
-    const response = await fetch('data/timeline.json');
+    const response = await fetch('/data/timeline.json');
     const timeline: TimelineItem[] = await response.json();
     
     const timelineEl = document.getElementById("timeline");

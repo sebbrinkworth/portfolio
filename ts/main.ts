@@ -110,7 +110,7 @@ function updateGalleryNavButton(target: 'gallery' | 'home'): void {
 // Gallery data loading with session caching
 async function loadGalleryData(): Promise<void> {
   try {
-    const response = await fetch('data/gallery.json');
+    const response = await fetch('/data/gallery.json');
     const data: GalleryItem[] = await response.json();
     galleryCache.set(data);
   } catch (error) {

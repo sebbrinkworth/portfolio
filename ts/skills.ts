@@ -11,7 +11,7 @@ import type { Skill } from '../types';
  */
 export async function loadSkills(): Promise<void> {
   try {
-    const response = await fetch('data/skills.json');
+    const response = await fetch('/data/skills.json');
     const skills: Skill[] = await response.json();
     
     const skillsEl = document.getElementById("skills");

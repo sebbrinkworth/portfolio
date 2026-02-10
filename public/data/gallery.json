@@ -1,0 +1,93 @@
+[
+  {
+    "src": "assets/images/gallery/PXL_20240517_203243228_opt.jpg",
+    "srcWebp": "assets/images/gallery/PXL_20240517_203243228.webp",
+    "thumbnail": "assets/images/gallery/PXL_20240517_203243228_opt.jpg",
+    "thumbnailWebp": "assets/images/gallery/PXL_20240517_203243228.webp",
+    "title": "May Evening",
+    "description": "Evening capture",
+    "alt": "Photo taken on May 17, 2024 at 20:32",
+    "ratio": "square",
+    "date": "2024-05-17",
+    "time": "20:32:43",
+    "location": null
+  },
+  {
+    "src": "assets/images/gallery/PXL_20230603_145305162_opt.jpg",
+    "srcWebp": "assets/images/gallery/PXL_20230603_145305162.webp",
+    "thumbnail": "assets/images/gallery/PXL_20230603_145305162_opt.jpg",
+    "thumbnailWebp": "assets/images/gallery/PXL_20230603_145305162.webp",
+    "title": "September Afternoon",
+    "description": "Afternoon moment",
+    "alt": "Photo taken on September 14, 2024 at 15:41",
+    "ratio": "square",
+    "date": "2024-09-14",
+    "time": "15:41:50",
+    "location": null
+  },
+  {
+    "src": "assets/images/gallery/PXL_20240426_114807229.MP_opt.jpg",
+    "srcWebp": "assets/images/gallery/PXL_20240426_114807229.MP.webp",
+    "thumbnail": "assets/images/gallery/PXL_20240426_114807229.MP_opt.jpg",
+    "thumbnailWebp": "assets/images/gallery/PXL_20240426_114807229.MP.webp",
+    "title": "September Afternoon",
+    "description": "Afternoon moment",
+    "alt": "Photo taken on September 14, 2024 at 15:41",
+    "ratio": "square",
+    "date": "2024-09-14",
+    "time": "15:41:50",
+    "location": null
+  },
+  {
+    "src": "assets/images/gallery/PXL_20230812_113928263.MP_opt.jpg",
+    "srcWebp": "assets/images/gallery/PXL_20230812_113928263.MP.webp",
+    "thumbnail": "assets/images/gallery/PXL_20230812_113928263.MP_opt.jpg",
+    "thumbnailWebp": "assets/images/gallery/PXL_20230812_113928263.MP.webp",
+    "title": "September Afternoon",
+    "description": "Afternoon moment",
+    "alt": "Photo taken on September 14, 2024 at 15:41",
+    "ratio": "square",
+    "date": "2024-09-14",
+    "time": "15:41:50",
+    "location": null
+  },
+  {
+    "src": "assets/images/gallery/PXL_20241128_004843639-EDIT_opt.jpg",
+    "srcWebp": "assets/images/gallery/PXL_20241128_004843639-EDIT.webp",
+    "thumbnail": "assets/images/gallery/PXL_20241128_004843639-EDIT_opt.jpg",
+    "thumbnailWebp": "assets/images/gallery/PXL_20241128_004843639-EDIT.webp",
+    "title": "Late Night",
+    "description": "Midnight capture",
+    "alt": "Photo taken on November 28, 2024 at 00:48",
+    "ratio": "square",
+    "date": "2024-11-28",
+    "time": "00:48:43",
+    "location": null
+  },
+  {
+    "src": "assets/images/gallery/PXL_20241205_105347814.NIGHT_opt.jpg",
+    "srcWebp": "assets/images/gallery/PXL_20241205_105347814.NIGHT.webp",
+    "thumbnail": "assets/images/gallery/PXL_20241205_105347814.NIGHT_opt.jpg",
+    "thumbnailWebp": "assets/images/gallery/PXL_20241205_105347814.NIGHT.webp",
+    "title": "Night Mode",
+    "description": "Night mode photography",
+    "alt": "Photo taken on December 5, 2024 at 10:53 using night mode",
+    "ratio": "square",
+    "date": "2024-12-05",
+    "time": "10:53:47",
+    "location": null
+  },
+  {
+    "src": "assets/images/gallery/cat_opt.jpg",
+    "srcWebp": "assets/images/gallery/cat.webp",
+    "thumbnail": "assets/images/gallery/cat_opt.jpg",
+    "thumbnailWebp": "assets/images/gallery/cat.webp",
+    "title": "Cat",
+    "description": "A feline friend",
+    "alt": "Photo of a cat",
+    "ratio": "square",
+    "date": null,
+    "time": null,
+    "location": null
+  }
+]

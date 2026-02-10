@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Load gallery data
 async function loadGallery(): Promise<void> {
   try {
-    const response = await fetch('data/gallery.json');
+    const response = await fetch('/data/gallery.json');
     galleryData = await response.json() as GalleryItem[];
     
     if (galleryData.length === 0) {

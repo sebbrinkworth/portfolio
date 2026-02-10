@@ -1,0 +1,19 @@
+[
+  { "icon": "code", "label": "Angular 2+" },
+  { "icon": "integration_instructions", "label": "React" },
+  { "icon": "data_object", "label": "TypeScript / JavaScript" },
+  { "icon": "terminal", "label": "Node.js" },
+  { "icon": "api", "label": ".NET" },
+  { "icon": "coffee", "label": "Java / Spring Boot" },
+  { "icon": "phone_iphone", "label": "Ionic" },
+  { "icon": "route", "label": "REST APIs" },
+  { "icon": "storage", "label": "SQL" },
+  { "icon": "bug_report", "label": "Cypress" },
+  { "icon": "play_circle", "label": "Playwright" },
+  { "icon": "cloud", "label": "CI/CD" },
+  { "icon": "merge", "label": "Git" },
+  { "icon": "hub", "label": "Azure DevOps" },
+  { "icon": "deployed_code", "label": "Docker" },
+  { "icon": "auto_awesome", "label": "LLM Tooling / AI Agents" },
+  { "icon": "brush", "label": "CSS Systems" }
+]
