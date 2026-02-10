@@ -1,5 +1,10 @@
 /* Motion.dev-style Lightbox - Shared Element Transitions */
 
+/* Force scrollbar to prevent layout shift when navigating between pages */
+html {
+  overflow-y: scroll;
+}
+
 /* Gallery Container */
 .gallery-container {
   width: 100%;
