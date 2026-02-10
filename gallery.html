@@ -1,11 +1,24 @@
 <!doctype html>
-<html lang="en" class="light">
+<html lang="en">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>
+    (function() {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
   <title>Gallery — Sebastian Brinkworth</title>
   <meta name="description" content="Photo gallery of work and projects by Sebastian Brinkworth." />
+
+  <!-- View Transitions API -->
+  <meta name="view-transition" content="same-origin" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,12 +44,9 @@
   <div class="grain grain-light" aria-hidden="true"></div>
   <div class="grain grain-dark" aria-hidden="true"></div>
 
-  <!-- Page Transition Overlay -->
-  <div class="page-transition-overlay" id="pageTransition"></div>
-
-  <!-- Navigation -->
-  <a href="index.html" class="nav-back" aria-label="Back to home">
-    <span class="ms">arrow_back</span>
+  <!-- Gallery Navigation (transforms to back button on gallery page) -->
+  <a href="index.html" class="gallery-nav" aria-label="Back to CV">
+    <span class="ms">description</span>
   </a>
 
   <!-- Theme Toggle -->
@@ -58,18 +68,21 @@
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer id="contact" aria-label="Contact">
-      <nav class="links" aria-label="Social links">
-        <a href="https://www.linkedin.com/in/sebastian-brinkworth/" target="_blank" rel="noreferrer">LinkedIn</a>
-        <span class="dot" aria-hidden="true">•</span>
-        <a href="https://github.com/sebbrinkworth/" target="_blank" rel="noreferrer">GitHub</a>
-        <span class="dot" aria-hidden="true">•</span>
-        <a href="mailto:sebastian.brinkworth@gmail.com">Email</a>
-      </nav>
-      <p class="copy">© <span id="year"></span> Sebastian Brinkworth.</p>
-    </footer>
+    <div class="timeline-divider" aria-hidden="true"></div>
+
   </main>
+
+  <!-- Footer -->
+  <footer id="contact" aria-label="Contact">
+    <nav class="links" aria-label="Social links">
+      <a href="https://www.linkedin.com/in/sebastian-brinkworth/" target="_blank" rel="noreferrer">LinkedIn</a>
+      <span class="dot" aria-hidden="true">•</span>
+      <a href="https://github.com/sebbrinkworth/" target="_blank" rel="noreferrer">GitHub</a>
+      <span class="dot" aria-hidden="true">•</span>
+      <a href="mailto:sebastian.brinkworth@gmail.com">Email</a>
+    </nav>
+    <p class="copy">© <span id="year"></span> Sebastian Brinkworth.</p>
+  </footer>
 
   <!-- Lightbox Overlay -->
   <div class="lightbox-overlay" id="lightboxOverlay" aria-hidden="true">

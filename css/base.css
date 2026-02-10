@@ -56,29 +56,19 @@ html.dark {
 html,
 body {
   height: 100%;
+  min-height: 100vh;
 }
 
 body {
   margin: 0;
   background: rgb(var(--bg));
   color: rgb(var(--fg));
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  /* --- FONT SELECTION --- */
-
-  /* CURRENT: Manrope */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-
-  /* OPTION 1: Inter */
-  /* font-family: 'Inter', system-ui, sans-serif; */
-
-  /* OPTION 2: Space Grotesk */
-  /* font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; */
-
-  /* OPTION 3: IBM Plex Sans (You can also apply 'IBM Plex Mono' to specific elements like .t-date or .skill) */
-  /* font-family: 'IBM Plex Sans', system-ui, sans-serif; */
 }
 
 ::selection {
@@ -100,4 +90,34 @@ a:hover {
   font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
   font-size: 20px;
   line-height: 1;
+}
+
+/* Minimalistic scrollbar - always visible */
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--border) / 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--border) / 0.5);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--border) / 0.3) transparent;
 }

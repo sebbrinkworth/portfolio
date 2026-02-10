@@ -1,5 +1,6 @@
 import { initTheme } from './theme.js';
 import { escapeHtml } from './utils.js';
+import { initVectorField } from './vector-field.js';
 
 // Gallery state
 let galleryData = [];
@@ -18,7 +19,6 @@ const lightboxCounter = document.getElementById('lightboxCounter');
 const lightboxClose = document.getElementById('lightboxClose');
 const lightboxPrev = document.getElementById('lightboxPrev');
 const lightboxNext = document.getElementById('lightboxNext');
-const pageTransition = document.getElementById('pageTransition');
 
 // Spring physics configuration
 const SPRING_CONFIG = {
@@ -30,12 +30,13 @@ const SPRING_CONFIG = {
 // Initialize gallery page
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
-  
+  initVectorField();
+
   const yearEl = document.getElementById('year');
   if (yearEl) {
     yearEl.textContent = String(new Date().getFullYear());
   }
-  
+
   loadGallery();
   setupEventListeners();
   handlePageTransition();
@@ -297,8 +298,8 @@ function animateExpander(fromRect, toRect, direction) {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
-      // Spring easing: cubic-bezier(0.34, 1.56, 0.64, 1)
-      const eased = springEasing(progress);
+      // Simple ease-out cubic (no bounce)
+      const eased = 1 - Math.pow(1 - progress, 3);
       
       // Apply transforms
       const currentX = fromRect.left + (deltaX * eased);
@@ -320,17 +321,6 @@ function animateExpander(fromRect, toRect, direction) {
     
     requestAnimationFrame(step);
   });
-}
-
-// Spring easing function (similar to cubic-bezier(0.34, 1.56, 0.64, 1))
-function springEasing(t) {
-  // Custom spring curve
-  const c1 = 1.70158;
-  const c2 = c1 * 1.525;
-  
-  return t < 0.5
-    ? (Math.pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
-    : (Math.pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2;
 }
 
 // Simple animate helper
@@ -357,70 +347,28 @@ function updateCounter() {
 
 // Setup event listeners
 function setupEventListeners() {
-  // Close button
-  lightboxClose.addEventListener('click', closeLightbox);
-  
-  // Navigation
-  lightboxPrev.addEventListener('click', (e) => {
-    e.stopPropagation();
-    prevImage();
-  });
-  
-  lightboxNext.addEventListener('click', (e) => {
-    e.stopPropagation();
-    nextImage();
-  });
-  
-  // Click backdrop to close
+  // Click on overlay (outside image) to close
   lightboxOverlay.addEventListener('click', (e) => {
+    // Only close if clicking directly on the overlay, not the image
     if (e.target === lightboxOverlay) {
       closeLightbox();
     }
   });
-  
-  // Keyboard navigation
+
+  // Prevent clicks on the image from closing
+  lightboxExpander.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  // Keyboard - only Escape to close
   document.addEventListener('keydown', (e) => {
     if (!lightboxOverlay.classList.contains('active')) return;
-    
-    switch (e.key) {
-      case 'Escape':
-        closeLightbox();
-        break;
-      case 'ArrowLeft':
-        prevImage();
-        break;
-      case 'ArrowRight':
-        nextImage();
-        break;
+
+    if (e.key === 'Escape') {
+      closeLightbox();
     }
   });
-  
-  // Touch/swipe support
-  let touchStartX = 0;
-  let touchEndX = 0;
-  
-  lightboxOverlay.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-  
-  lightboxOverlay.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  }, { passive: true });
-  
-  function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0) {
-        nextImage();
-      } else {
-        prevImage();
-      }
-    }
-  }
-  
+
   // Resize handler
   window.addEventListener('resize', () => {
     if (lightboxOverlay.classList.contains('active') && !isAnimating) {
@@ -433,18 +381,25 @@ function setupEventListeners() {
   });
 }
 
-// Handle page transition
+// Handle page transition with View Transitions API
 function handlePageTransition() {
-  const navBack = document.querySelector('.nav-back');
-  
-  if (navBack && pageTransition) {
-    navBack.addEventListener('click', (e) => {
+  const galleryNav = document.querySelector('.gallery-nav');
+  const supportsViewTransitions = 'startViewTransition' in document;
+
+  if (galleryNav) {
+    galleryNav.addEventListener('click', (e) => {
+      if (!supportsViewTransitions) {
+        // Let default navigation happen for unsupported browsers
+        return;
+      }
+
       e.preventDefault();
-      const href = navBack.getAttribute('href');
-      pageTransition.classList.add('active');
-      setTimeout(() => {
+      const href = galleryNav.getAttribute('href');
+
+      // Start view transition before navigation
+      document.startViewTransition(() => {
         window.location.href = href;
-      }, 300);
+      });
     });
   }
 }

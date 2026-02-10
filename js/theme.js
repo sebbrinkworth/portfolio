@@ -25,11 +25,19 @@ export function initTheme() {
     }
 
     if (document.startViewTransition) {
+      // Add theme class for specific theme transition styling
+      root.classList.add("view-transition-theme");
+
       document.startViewTransition(() => {
         root.classList.toggle("dark");
         localStorage.setItem("theme", root.classList.contains("dark") ? "dark" : "light");
         syncIcon();
       });
+
+      // Clean up theme class after transition
+      setTimeout(() => {
+        root.classList.remove("view-transition-theme");
+      }, 1100);
     } else {
       root.classList.toggle("dark");
       localStorage.setItem("theme", root.classList.contains("dark") ? "dark" : "light");
