@@ -71,28 +71,30 @@
     </footer>
   </main>
 
-  <!-- Lightbox Modal -->
-  <dialog class="lightbox-modal" id="lightbox" aria-label="Image lightbox">
-    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+  <!-- Lightbox Overlay -->
+  <div class="lightbox-overlay" id="lightboxOverlay" aria-hidden="true">
+    <div class="lightbox-counter" id="lightboxCounter">1 / 6</div>
+    
     <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">
       <span class="ms">close</span>
     </button>
-    <div class="lightbox-content">
-      <div class="lightbox-image-container" id="lightboxImageContainer">
-        <img id="lightboxImage" src="" alt="" loading="eager" />
-      </div>
+    
+    <!-- Expanding Image Container -->
+    <div class="lightbox-expander" id="lightboxExpander">
+      <img id="lightboxImage" src="" alt="" />
       <div class="lightbox-info" id="lightboxInfo">
         <h3 id="lightboxTitle"></h3>
         <p id="lightboxDescription"></p>
       </div>
     </div>
+    
     <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">
       <span class="ms">chevron_left</span>
     </button>
     <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">
       <span class="ms">chevron_right</span>
     </button>
-  </dialog>
+  </div>
 
   <!-- Scripts -->
   <script type="module" src="js/gallery-page.js"></script>
