@@ -33,5 +33,12 @@
     "org": "Globant",
     "location": "Rosario, Argentina",
     "desc": "Built Angular 8+ applications for a global financial consulting firm. Collaborated within a diverse Agile team using Azure DevOps."
+  },
+  {
+    "dates": "2018 - 2019",
+    "role": "Bachelor's Degree in Software Engineering",
+    "org": "UNR",
+    "location": "Rosario, Argentina",
+    "desc": "Completed comprehensive software engineering program with focus on modern development practices, algorithms, and system architecture."
   }
 ]

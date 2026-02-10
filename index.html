@@ -132,6 +132,67 @@
       h1 { font-size: 54px; }
       .subtitle { font-size: 20px; }
     }
+    
+    /* Loading Animation */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgb(var(--bg));
+      opacity: 1;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    
+    .loading-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    
+    /* Loading line matches the timeline line exactly */
+    .loading-line {
+      position: fixed;
+      top: 0;
+      left: 14px;
+      width: 1px;
+      height: 0%;
+      background: rgb(var(--border) / 0.12);
+      z-index: 10000;
+      box-shadow: 0 0 10px rgb(var(--border) / 0.2);
+    }
+    
+    @media (min-width: 768px) {
+      .loading-line {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+    
+    /* Main content - default visible, hidden during loading */
+    .wrap, footer, .theme-toggle, .gallery-nav {
+      opacity: 1;
+    }
+    
+    body.loading .wrap,
+    body.loading footer,
+    body.loading .theme-toggle,
+    body.loading .gallery-nav {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    body.loaded .wrap,
+    body.loaded footer,
+    body.loaded .theme-toggle,
+    body.loaded .gallery-nav {
+      opacity: 1;
+      transition: opacity 0.8s ease;
+    }
+    
+
   </style>
   
   <!-- Non-critical CSS loaded asynchronously -->
@@ -146,6 +207,18 @@
 </head>
 
 <body>
+  <!-- Loading Animation Overlay -->
+  <div id="loading-overlay" class="loading-overlay" aria-hidden="true">
+    <div class="loading-line"></div>
+  </div>
+  
+  <noscript>
+    <style>
+      #loading-overlay { display: none !important; }
+      body.loading .wrap, body.loading footer, body.loading .theme-toggle, body.loading .gallery-nav { opacity: 1 !important; }
+    </style>
+  </noscript>
+
   <!-- Background Effects -->
   <div id="field-bg" aria-hidden="true">
     <div id="field-grid"></div>
@@ -204,9 +277,7 @@
     <!-- Timeline -->
     <section class="timeline" aria-label="Professional Timeline">
       <div class="section-title">
-        <span class="line" aria-hidden="true"></span>
         <h2>Professional Timeline</h2>
-        <span class="line" aria-hidden="true"></span>
       </div>
 
       <div class="timeline-body">
@@ -225,6 +296,28 @@
       </div>
 
       <ul id="skills"></ul>
+    </section>
+
+    <!-- Education - Line continues after skills -->
+    <div class="education-line" aria-hidden="true"></div>
+    <section class="education" aria-label="Education">
+      <div class="section-title">
+        <span class="line" aria-hidden="true"></span>
+        <h2>Education</h2>
+        <span class="line" aria-hidden="true"></span>
+      </div>
+      
+      <div class="education-item right">
+        <div class="t-dot" aria-hidden="true"></div>
+        <div class="t-date-wrap">
+          <span class="t-date">2018 - 2019</span>
+        </div>
+        <div class="t-content">
+          <h3>Bachelor's Degree in Software Engineering</h3>
+          <div class="t-meta">UNR — Rosario, Argentina</div>
+          <div class="t-desc">Completed comprehensive software engineering program with focus on modern development practices, algorithms, and system architecture.</div>
+        </div>
+      </div>
     </section>
 
     <!-- Gallery (placeholder for future) -->
@@ -254,8 +347,27 @@
     <p class="copy">© <span id="year"></span> Sebastian Brinkworth.</p>
   </footer>
 
+  <!-- Motion Library -->
+  <script type="module">
+    import { animate, spring } from 'https://cdn.jsdelivr.net/npm/motion@12.4.2/+esm';
+    window.Motion = { animate, spring };
+    window.MotionReady = true;
+  </script>
+  
   <!-- Scripts -->
   <script type="module" src="js/main.js"></script>
+  
+  <!-- Safety net: Force loading to complete after 5 seconds max -->
+  <script>
+    setTimeout(function() {
+      document.body.classList.remove('loading');
+      document.body.classList.add('loaded');
+      var overlay = document.getElementById('loading-overlay');
+      if (overlay) {
+        overlay.classList.add('hidden');
+      }
+    }, 5000);
+  </script>
 </body>
 
 </html>
