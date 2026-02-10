@@ -10,7 +10,6 @@ node_modules/
 .idea/
 *.swp
 *.swo
-nul
 coverage/
 dist/
 *.js.map
