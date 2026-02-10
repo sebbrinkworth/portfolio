@@ -9,35 +9,34 @@ A modern, responsive CV/Portfolio website built with vanilla HTML, CSS, and Java
 - **Responsive**: Optimized for all screen sizes
 - **Interactive Background**: Animated vector field that follows cursor
 - **Modular Architecture**: Well-organized codebase for easy maintenance
-- **Photo Gallery Ready**: Foundation in place for adding a work gallery
+- **Photo Gallery**: Motion.dev-inspired lightbox with spring physics animations
+- **Smooth Page Transitions**: Seamless navigation between pages
 
 ## 📁 Project Structure
 
 ```
 cv/
-├── index.html              # Main entry point
+├── index.html             # Main CV page
+├── gallery.html           # Photo gallery page
 ├── css/
-│   ├── base.css           # CSS variables, resets, typography
-│   ├── layout.css         # Container, grid, wrapper styles
-│   ├── components.css     # Cards, buttons, avatar, timeline, skills
-│   ├── effects.css        # Background animations, grain, themes
-│   └── gallery.css        # Photo gallery styles (ready for use)
+│   ├── base.css          # CSS variables, resets, typography
+│   ├── layout.css        # Container, grid, wrapper styles
+│   ├── components.css    # Cards, buttons, avatar, timeline, skills
+│   ├── effects.css       # Background animations, grain, themes
+│   ├── gallery.css       # Gallery base styles
+│   └── gallery-page.css  # Gallery page & lightbox styles
 ├── js/
-│   ├── main.js            # Entry point, initialization
-│   ├── theme.js           # Theme toggle logic
-│   ├── timeline.js        # Timeline rendering from JSON
-│   ├── skills.js          # Skills rendering from JSON
-│   ├── vector-field.js    # Background animation
-│   ├── gallery.js         # Gallery functionality (ready for use)
-│   └── utils.js           # Shared utilities
+│   ├── main.js           # Main page entry point
+│   ├── gallery-page.js   # Gallery page with lightbox
+│   ├── theme.js          # Theme toggle logic
+│   ├── timeline.js       # Timeline rendering from JSON
+│   ├── skills.js         # Skills rendering from JSON
+│   ├── vector-field.js   # Background animation
+│   └── utils.js          # Shared utilities
 ├── data/
-│   ├── timeline.json      # Professional timeline data
-│   ├── skills.json        # Skills data
-│   └── gallery.json       # Gallery data (empty, ready to populate)
-├── assets/
-│   └── images/
-│       ├── avatar/        # Profile photos
-│       └── gallery/       # Photo gallery images
+│   ├── timeline.json     # Professional timeline data
+│   ├── skills.json       # Skills data
+│   └── gallery.json      # Gallery data
 └── .gitignore
 ```
 
@@ -99,12 +98,25 @@ Icons come from [Material Symbols](https://fonts.google.com/icons)
 ```json
 {
   "src": "assets/images/gallery/my-photo.jpg",
+  "thumbnail": "assets/images/gallery/my-photo-thumb.jpg",
   "title": "Project Title",
-  "description": "Brief description",
-  "category": "work"
+  "description": "Brief description of this project",
+  "alt": "Descriptive alt text",
+  "ratio": "square"
 }
 ```
-3. The gallery section will automatically display (remove `style="display: none;"` from index.html)
+
+**Gallery Features:**
+- **Motion.dev-inspired lightbox**: Smooth spring physics animations
+- **Keyboard navigation**: Use ← → arrows to navigate, ESC to close
+- **Touch/swipe support**: Swipe left/right on mobile to navigate
+- **Responsive masonry grid**: Adapts from 2-4 columns based on screen size
+- **Smooth page transitions**: Seamless navigation between CV and Gallery pages
+
+**Image Ratio Options:**
+- `"square"` (default) - Regular grid item
+- `"wide"` - Spans 2 columns
+- `"tall"` - Spans 2 rows (portrait)
 
 ## 🎨 Customization
 

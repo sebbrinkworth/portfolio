@@ -1,1 +1,49 @@
-[]
+[
+  {
+    "src": "assets/images/gallery/cat.jpg",
+    "thumbnail": "assets/images/gallery/cat.jpg",
+    "title": "cat",
+    "description": "Brief description of this project or moment",
+    "alt": "Descriptive alt text for accessibility",
+    "ratio": "square"
+  },
+  {
+    "src": "assets/images/gallery/project-2.jpg",
+    "thumbnail": "assets/images/gallery/project-2-thumb.jpg",
+    "title": "Another Project",
+    "description": "Description of this work",
+    "alt": "Alt text",
+    "ratio": "wide"
+  },
+  {
+    "src": "assets/images/gallery/project-3.jpg",
+    "thumbnail": "assets/images/gallery/project-3-thumb.jpg",
+    "title": "Tall Project",
+    "description": "A project with portrait orientation",
+    "alt": "Alt text",
+    "ratio": "tall"
+  }
+]
+
+/*
+RATIO OPTIONS:
+- "square" (default) - Regular grid item
+- "wide" - Spans 2 columns
+- "tall" - Spans 2 rows
+
+To use this file:
+1. Add your images to assets/images/gallery/
+2. Create thumbnails (optional, will use src if not specified)
+3. Update this JSON array with your photos
+4. The gallery will automatically display them
+
+Example:
+{
+  "src": "assets/images/gallery/my-photo.jpg",
+  "thumbnail": "assets/images/gallery/my-photo-thumb.jpg",
+  "title": "My Project",
+  "description": "A brief description of what this is",
+  "alt": "Screenshot of my project dashboard",
+  "ratio": "wide"
+}
+*/
