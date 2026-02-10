@@ -13,18 +13,23 @@ const galleryGrid = document.getElementById('galleryGrid');
 const lightboxOverlay = document.getElementById('lightboxOverlay');
 const lightboxExpander = document.getElementById('lightboxExpander');
 const lightboxImage = document.getElementById('lightboxImage');
-const lightboxTitle = document.getElementById('lightboxTitle');
-const lightboxDescription = document.getElementById('lightboxDescription');
-const lightboxCounter = document.getElementById('lightboxCounter');
-const lightboxClose = document.getElementById('lightboxClose');
-const lightboxPrev = document.getElementById('lightboxPrev');
-const lightboxNext = document.getElementById('lightboxNext');
 
-// Spring physics configuration
-const SPRING_CONFIG = {
-  stiffness: 300,
+// Motion library (loaded from CDN)
+const Motion = window.Motion || {};
+
+// Spring configuration for natural, physics-based animations
+const lightboxSpring = {
+  type: "spring",
+  stiffness: 250,
   damping: 25,
   mass: 0.8
+};
+
+const closeSpring = {
+  type: "spring",
+  stiffness: 300,
+  damping: 30,
+  mass: 0.6
 };
 
 // Initialize gallery page
@@ -80,6 +85,7 @@ function showEmptyState() {
 function renderGallery() {
   galleryGrid.innerHTML = galleryData.map((item, index) => {
     const ratio = item.ratio || 'square';
+    const hasWebp = item.thumbnailWebp || item.srcWebp;
     return `
       <article 
         class="gallery-item" 
@@ -89,18 +95,66 @@ function renderGallery() {
         tabindex="0"
         aria-label="View ${escapeHtml(item.title)}"
       >
+        ${hasWebp ? `
+        <picture>
+          <source 
+            srcset="${escapeHtml(item.thumbnailWebp || item.srcWebp)}" 
+            type="image/webp"
+          />
+          <img 
+            src="${escapeHtml(item.thumbnail || item.src)}" 
+            alt="${escapeHtml(item.alt || item.title)}"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+        ` : `
         <img 
           src="${escapeHtml(item.thumbnail || item.src)}" 
           alt="${escapeHtml(item.alt || item.title)}"
           loading="lazy"
           decoding="async"
         />
+        `}
       </article>
     `;
   }).join('');
   
-  // Add click handlers
+  // Initialize Motion press gestures on gallery items
+  initializePressGestures();
+}
+
+// Initialize Motion press gestures for smooth interaction
+function initializePressGestures() {
+  if (!Motion.press) return;
+  
   document.querySelectorAll('.gallery-item').forEach(item => {
+    const img = item.querySelector('img');
+    
+    // Use Motion's press for gesture detection with visual feedback
+    Motion.press(item, (element) => {
+      // Animate the press down
+      if (Motion.animate) {
+        Motion.animate(img, { scale: 0.95 }, { duration: 0.15 });
+      } else {
+        img.style.transform = 'scale(0.95)';
+      }
+      
+      return () => {
+        // Animate the release
+        if (Motion.animate) {
+          Motion.animate(img, { scale: 1 }, { 
+            type: "spring",
+            stiffness: 400,
+            damping: 25
+          });
+        } else {
+          img.style.transform = 'scale(1)';
+        }
+      };
+    }, { once: true });
+    
+    // Handle click to open lightbox
     item.addEventListener('click', () => {
       if (isAnimating) return;
       const index = parseInt(item.dataset.index);
@@ -120,7 +174,7 @@ function renderGallery() {
   });
 }
 
-// Open lightbox with FLIP animation
+// Open lightbox with shared element transition
 async function openLightbox(index) {
   if (isAnimating) return;
   isAnimating = true;
@@ -128,15 +182,12 @@ async function openLightbox(index) {
   
   const item = galleryData[currentIndex];
   
-  // Get thumbnail position (First)
+  // Get thumbnail position
   const thumbnailRect = activeThumbnail.getBoundingClientRect();
   
   // Set up lightbox image
-  lightboxImage.src = item.src;
+  lightboxImage.src = item.srcWebp || item.src;
   lightboxImage.alt = item.alt || item.title;
-  lightboxTitle.textContent = item.title;
-  lightboxDescription.textContent = item.description || '';
-  updateCounter();
   
   // Position expander at thumbnail location
   lightboxExpander.style.position = 'fixed';
@@ -144,20 +195,53 @@ async function openLightbox(index) {
   lightboxExpander.style.top = `${thumbnailRect.top}px`;
   lightboxExpander.style.width = `${thumbnailRect.width}px`;
   lightboxExpander.style.height = `${thumbnailRect.height}px`;
+  lightboxExpander.style.borderRadius = '12px';
   lightboxExpander.style.opacity = '1';
   
-  // Show overlay
+  // Show overlay with fade
   lightboxOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
   
-  // Force reflow
-  lightboxExpander.offsetHeight;
-  
-  // Calculate target position (Last)
+  // Calculate target position
   const targetRect = calculateTargetRect(thumbnailRect);
   
-  // Animate using spring physics (Invert & Play)
-  await animateExpander(thumbnailRect, targetRect, 'open');
+  // Use View Transition API if available, otherwise use Motion animate
+  if (document.startViewTransition && !Motion.animate) {
+    const transition = document.startViewTransition(() => {
+      lightboxExpander.style.left = `${targetRect.left}px`;
+      lightboxExpander.style.top = `${targetRect.top}px`;
+      lightboxExpander.style.width = `${targetRect.width}px`;
+      lightboxExpander.style.height = `${targetRect.height}px`;
+      lightboxExpander.style.borderRadius = '4px';
+    });
+    
+    await transition.finished;
+  } else if (Motion.animate) {
+    // Use Motion's spring animation for natural feel
+    await Promise.all([
+      Motion.animate(lightboxExpander, {
+        left: targetRect.left,
+        top: targetRect.top,
+        width: targetRect.width,
+        height: targetRect.height,
+        borderRadius: 4
+      }, lightboxSpring),
+      Motion.animate(lightboxOverlay, {
+        opacity: 1
+      }, { duration: 0.3 })
+    ]);
+  } else {
+    // Fallback to CSS transition
+    lightboxExpander.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    lightboxExpander.style.left = `${targetRect.left}px`;
+    lightboxExpander.style.top = `${targetRect.top}px`;
+    lightboxExpander.style.width = `${targetRect.width}px`;
+    lightboxExpander.style.height = `${targetRect.height}px`;
+    lightboxExpander.style.borderRadius = '4px';
+    
+    await new Promise(resolve => setTimeout(resolve, 500));
+    lightboxExpander.style.transition = '';
+  }
   
   isAnimating = false;
 }
@@ -174,74 +258,41 @@ async function closeLightbox() {
   const thumbnail = document.querySelector(`.gallery-item[data-index="${currentIndex}"] img`);
   const targetRect = thumbnail ? thumbnail.getBoundingClientRect() : currentRect;
   
-  // Animate back to thumbnail
-  await animateExpander(currentRect, targetRect, 'close');
+  if (Motion.animate) {
+    // Use Motion's spring animation
+    await Promise.all([
+      Motion.animate(lightboxExpander, {
+        left: targetRect.left,
+        top: targetRect.top,
+        width: targetRect.width,
+        height: targetRect.height,
+        borderRadius: 12
+      }, closeSpring),
+      Motion.animate(lightboxOverlay, {
+        opacity: 0
+      }, { duration: 0.25 })
+    ]);
+  } else {
+    // Fallback to CSS transition
+    lightboxExpander.style.transition = 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
+    lightboxExpander.style.left = `${targetRect.left}px`;
+    lightboxExpander.style.top = `${targetRect.top}px`;
+    lightboxExpander.style.width = `${targetRect.width}px`;
+    lightboxExpander.style.height = `${targetRect.height}px`;
+    lightboxExpander.style.borderRadius = '12px';
+    lightboxOverlay.style.transition = 'opacity 0.25s ease';
+    lightboxOverlay.style.opacity = '0';
+    
+    await new Promise(resolve => setTimeout(resolve, 350));
+    lightboxExpander.style.transition = '';
+    lightboxOverlay.style.transition = '';
+  }
   
   // Hide overlay
   lightboxOverlay.classList.remove('active');
+  lightboxOverlay.style.opacity = '';
   document.body.style.overflow = '';
-  
-  // Reset
   lightboxExpander.style.opacity = '0';
-  isAnimating = false;
-}
-
-// Navigate to previous image
-async function prevImage() {
-  if (isAnimating || galleryData.length <= 1) return;
-  
-  isAnimating = true;
-  
-  // Fade out current
-  await animate(lightboxImage, { opacity: 0 }, { duration: 150 });
-  
-  // Update index
-  currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
-  const item = galleryData[currentIndex];
-  
-  // Update thumbnail reference
-  const thumbnail = document.querySelector(`.gallery-item[data-index="${currentIndex}"] img`);
-  if (thumbnail) activeThumbnail = thumbnail;
-  
-  // Update content
-  lightboxImage.src = item.src;
-  lightboxImage.alt = item.alt || item.title;
-  lightboxTitle.textContent = item.title;
-  lightboxDescription.textContent = item.description || '';
-  updateCounter();
-  
-  // Fade in
-  await animate(lightboxImage, { opacity: 1 }, { duration: 200 });
-  
-  isAnimating = false;
-}
-
-// Navigate to next image
-async function nextImage() {
-  if (isAnimating || galleryData.length <= 1) return;
-  
-  isAnimating = true;
-  
-  // Fade out current
-  await animate(lightboxImage, { opacity: 0 }, { duration: 150 });
-  
-  // Update index
-  currentIndex = (currentIndex + 1) % galleryData.length;
-  const item = galleryData[currentIndex];
-  
-  // Update thumbnail reference
-  const thumbnail = document.querySelector(`.gallery-item[data-index="${currentIndex}"] img`);
-  if (thumbnail) activeThumbnail = thumbnail;
-  
-  // Update content
-  lightboxImage.src = item.src;
-  lightboxImage.alt = item.alt || item.title;
-  lightboxTitle.textContent = item.title;
-  lightboxDescription.textContent = item.description || '';
-  updateCounter();
-  
-  // Fade in
-  await animate(lightboxImage, { opacity: 1 }, { duration: 200 });
   
   isAnimating = false;
 }
@@ -282,74 +333,88 @@ function calculateTargetRect(thumbnailRect) {
   };
 }
 
-// Spring-based FLIP animation
-function animateExpander(fromRect, toRect, direction) {
-  return new Promise((resolve) => {
-    const startTime = performance.now();
-    const duration = direction === 'open' ? 600 : 400;
-    
-    // Calculate deltas
-    const deltaX = toRect.left - fromRect.left;
-    const deltaY = toRect.top - fromRect.top;
-    const deltaW = toRect.width - fromRect.width;
-    const deltaH = toRect.height - fromRect.height;
-    
-    function step(currentTime) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Simple ease-out cubic (no bounce)
-      const eased = 1 - Math.pow(1 - progress, 3);
-      
-      // Apply transforms
-      const currentX = fromRect.left + (deltaX * eased);
-      const currentY = fromRect.top + (deltaY * eased);
-      const currentW = fromRect.width + (deltaW * eased);
-      const currentH = fromRect.height + (deltaH * eased);
-      
-      lightboxExpander.style.left = `${currentX}px`;
-      lightboxExpander.style.top = `${currentY}px`;
-      lightboxExpander.style.width = `${currentW}px`;
-      lightboxExpander.style.height = `${currentH}px`;
-      
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      } else {
-        resolve();
-      }
-    }
-    
-    requestAnimationFrame(step);
-  });
+// Navigate to next image
+async function nextImage() {
+  if (isAnimating || galleryData.length <= 1) return;
+  
+  isAnimating = true;
+  
+  // Fade out current image
+  if (Motion.animate) {
+    await Motion.animate(lightboxImage, { opacity: 0 }, { duration: 0.15 });
+  } else {
+    lightboxImage.style.transition = 'opacity 0.15s ease';
+    lightboxImage.style.opacity = '0';
+    await new Promise(resolve => setTimeout(resolve, 150));
+  }
+  
+  // Update index
+  currentIndex = (currentIndex + 1) % galleryData.length;
+  const item = galleryData[currentIndex];
+  
+  // Update thumbnail reference
+  const thumbnail = document.querySelector(`.gallery-item[data-index="${currentIndex}"] img`);
+  if (thumbnail) activeThumbnail = thumbnail;
+  
+  // Update content
+  lightboxImage.src = item.src;
+  lightboxImage.alt = item.alt || item.title;
+  
+  // Fade in
+  if (Motion.animate) {
+    await Motion.animate(lightboxImage, { opacity: 1 }, { duration: 0.2 });
+  } else {
+    lightboxImage.style.opacity = '1';
+    await new Promise(resolve => setTimeout(resolve, 200));
+    lightboxImage.style.transition = '';
+  }
+  
+  isAnimating = false;
 }
 
-// Simple animate helper
-function animate(element, properties, options) {
-  return new Promise((resolve) => {
-    const { duration = 300 } = options;
-    
-    Object.assign(element.style, {
-      transition: `all ${duration}ms ease`,
-      ...properties
-    });
-    
-    setTimeout(() => {
-      element.style.transition = '';
-      resolve();
-    }, duration);
-  });
-}
-
-// Update counter
-function updateCounter() {
-  lightboxCounter.textContent = `${currentIndex + 1} / ${galleryData.length}`;
+// Navigate to previous image
+async function prevImage() {
+  if (isAnimating || galleryData.length <= 1) return;
+  
+  isAnimating = true;
+  
+  // Fade out current image
+  if (Motion.animate) {
+    await Motion.animate(lightboxImage, { opacity: 0 }, { duration: 0.15 });
+  } else {
+    lightboxImage.style.transition = 'opacity 0.15s ease';
+    lightboxImage.style.opacity = '0';
+    await new Promise(resolve => setTimeout(resolve, 150));
+  }
+  
+  // Update index
+  currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
+  const item = galleryData[currentIndex];
+  
+  // Update thumbnail reference
+  const thumbnail = document.querySelector(`.gallery-item[data-index="${currentIndex}"] img`);
+  if (thumbnail) activeThumbnail = thumbnail;
+  
+  // Update content
+  lightboxImage.src = item.src;
+  lightboxImage.alt = item.alt || item.title;
+  
+  // Fade in
+  if (Motion.animate) {
+    await Motion.animate(lightboxImage, { opacity: 1 }, { duration: 0.2 });
+  } else {
+    lightboxImage.style.opacity = '1';
+    await new Promise(resolve => setTimeout(resolve, 200));
+    lightboxImage.style.transition = '';
+  }
+  
+  isAnimating = false;
 }
 
 // Setup event listeners
 function setupEventListeners() {
   // Click on overlay (outside image) to close
   lightboxOverlay.addEventListener('click', (e) => {
-    // Only close if clicking directly on the overlay, not the image
     if (e.target === lightboxOverlay) {
       closeLightbox();
     }
@@ -360,12 +425,22 @@ function setupEventListeners() {
     e.stopPropagation();
   });
 
-  // Keyboard - only Escape to close
+  // Keyboard navigation
   document.addEventListener('keydown', (e) => {
     if (!lightboxOverlay.classList.contains('active')) return;
 
-    if (e.key === 'Escape') {
-      closeLightbox();
+    switch (e.key) {
+      case 'Escape':
+        closeLightbox();
+        break;
+      case 'ArrowRight':
+        e.preventDefault();
+        nextImage();
+        break;
+      case 'ArrowLeft':
+        e.preventDefault();
+        prevImage();
+        break;
     }
   });
 
@@ -379,6 +454,32 @@ function setupEventListeners() {
       lightboxExpander.style.height = `${targetRect.height}px`;
     }
   });
+  
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  lightboxOverlay.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  
+  lightboxOverlay.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+  
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        nextImage();
+      } else {
+        prevImage();
+      }
+    }
+  }
 }
 
 // Handle page transition with View Transitions API
@@ -388,15 +489,11 @@ function handlePageTransition() {
 
   if (galleryNav) {
     galleryNav.addEventListener('click', (e) => {
-      if (!supportsViewTransitions) {
-        // Let default navigation happen for unsupported browsers
-        return;
-      }
+      if (!supportsViewTransitions) return;
 
       e.preventDefault();
       const href = galleryNav.getAttribute('href');
 
-      // Start view transition before navigation
       document.startViewTransition(() => {
         window.location.href = href;
       });

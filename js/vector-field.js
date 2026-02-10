@@ -23,6 +23,8 @@ export function initVectorField() {
     ty = innerHeight / 2;
   let cx = tx,
     cy = ty;
+  let isVisible = true;
+  let rafId = null;
 
   const shortestAngleDelta = (from, to) => ((to - from + 540) % 360) - 180;
 
@@ -85,10 +87,23 @@ export function initVectorField() {
     { passive: true }
   );
 
+  // Pause animation when tab is hidden to save battery
+  document.addEventListener("visibilitychange", () => {
+    isVisible = document.visibilityState === "visible";
+    if (isVisible && !rafId) {
+      tick();
+    }
+  });
+
   build();
 
   const tick = () => {
-    requestAnimationFrame(tick);
+    if (!isVisible) {
+      rafId = null;
+      return;
+    }
+
+    rafId = requestAnimationFrame(tick);
 
     cx += (tx - cx) * CFG.cursorSmooth;
     cy += (ty - cy) * CFG.cursorSmooth;
