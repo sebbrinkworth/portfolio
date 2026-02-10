@@ -1,0 +1,37 @@
+[
+  {
+    "dates": "2025 - Present",
+    "role": "QA Automation Engineer",
+    "org": "Primero Systems",
+    "location": "Remote",
+    "desc": "Spearheading AI-driven development practices by architecting a multi-agent automation framework for an internal platform. Accelerating delivery cycles through custom LLM pipelines while mentoring the team on leveraging AI agents to maximize productivity and code quality."
+  },
+  {
+    "dates": "2024 - 2025",
+    "role": "Full-Stack Developer",
+    "org": "CEAB",
+    "location": "Remote",
+    "desc": "Engineered a custom employee management system to replace legacy Google Sheets workflows. Provided technical support, documentation, and continuous feature enhancements."
+  },
+  {
+    "dates": "2022 - 2024",
+    "role": "Full-Stack Developer",
+    "org": "Zuehlke",
+    "location": "Porto, Portugal",
+    "desc": "Modernized portals for the Austrian Green Party and Swiss Telecom using Angular 16+, Spring Boot, and Ionic. Integrated Google Maps and upgraded core legacy dependencies."
+  },
+  {
+    "dates": "2021 - 2022",
+    "role": "Full-Stack Developer",
+    "org": "PwC",
+    "location": "Rosario, Argentina",
+    "desc": "Developed Angular frontends and .NET backends for tax-related tools. Managed code reviews, testing, and production bug fixes in a high-compliance environment."
+  },
+  {
+    "dates": "2019 - 2021",
+    "role": "Front-End Developer",
+    "org": "Globant",
+    "location": "Rosario, Argentina",
+    "desc": "Built Angular 8+ applications for a global financial consulting firm. Collaborated within a diverse Agile team using Azure DevOps."
+  }
+]

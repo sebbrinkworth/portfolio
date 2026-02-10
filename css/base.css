@@ -1,0 +1,103 @@
+:root {
+  /* Color tokens (light) */
+  --primary: 145 60 20;
+  --bg: 253 251 247;
+  --fg: 17 19 24;
+  --muted: 99 111 136;
+
+  --card: 255 255 255;
+  --card-alpha: 0.45;
+
+  --border: 17 19 24;
+  --border-alpha: 0.08;
+
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  /* Background FX */
+  --field-mask-radius: 180px;
+  --field-overscan: 120px;
+
+  /* Layout */
+  --maxw: 56rem;
+  /* ~ 896px */
+  --pad: 24px;
+  --radius: 18px;
+
+  /* Animation timing functions */
+  --expo-out: linear(0 0%, 0.1684 2.66%, 0.3165 5.49%,
+      0.446 8.52%, 0.5581 11.78%,
+      0.6535 15.29%, 0.7341 19.11%,
+      0.8011 23.3%, 0.8557 27.93%,
+      0.8962 32.68%, 0.9283 38.01%,
+      0.9529 44.08%, 0.9711 51.14%,
+      0.9833 59.06%, 0.9915 68.74%, 1 100%);
+}
+
+html.dark {
+  /* Color tokens (dark) */
+  --bg: 26 24 20;
+  --fg: 240 242 246;
+  --muted: 170 177 190;
+
+  --card: 255 255 255;
+  --card-alpha: 0.05;
+
+  --border: 255 255 255;
+  --border-alpha: 0.08;
+
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Base */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* --- FONT SELECTION --- */
+
+  /* CURRENT: Manrope */
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  /* OPTION 1: Inter */
+  /* font-family: 'Inter', system-ui, sans-serif; */
+
+  /* OPTION 2: Space Grotesk */
+  /* font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; */
+
+  /* OPTION 3: IBM Plex Sans (You can also apply 'IBM Plex Mono' to specific elements like .t-date or .skill) */
+  /* font-family: 'IBM Plex Sans', system-ui, sans-serif; */
+}
+
+::selection {
+  background: rgb(var(--primary) / 0.2);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(var(--primary));
+}
+
+/* Material Symbols */
+.ms {
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
+  font-size: 20px;
+  line-height: 1;
+}
