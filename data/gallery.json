@@ -1,49 +1,68 @@
 [
   {
+    "src": "assets/images/gallery/PXL_20240517_203243228.jpg",
+    "thumbnail": "assets/images/gallery/PXL_20240517_203243228.jpg",
+    "title": "May Evening",
+    "description": "Evening capture",
+    "alt": "Photo taken on May 17, 2024 at 20:32",
+    "ratio": "square",
+    "date": "2024-05-17",
+    "time": "20:32:43",
+    "location": null
+  },
+  {
+    "src": "assets/images/gallery/PXL_20230603_145305162.jpg",
+    "thumbnail": "assets/images/gallery/PXL_20230603_145305162.jpg",
+    "title": "September Afternoon",
+    "description": "Afternoon moment",
+    "alt": "Photo taken on September 14, 2024 at 15:41",
+    "ratio": "square",
+    "date": "2024-09-14",
+    "time": "15:41:50",
+    "location": null
+  },
+  {
+    "src": "assets/images/gallery/PXL_20230812_113928263.MP.jpg",
+    "thumbnail": "assets/images/gallery/PXL_20230812_113928263.MP.jpg",
+    "title": "September Afternoon",
+    "description": "Afternoon moment",
+    "alt": "Photo taken on September 14, 2024 at 15:41",
+    "ratio": "square",
+    "date": "2024-09-14",
+    "time": "15:41:50",
+    "location": null
+  },
+  {
+    "src": "assets/images/gallery/PXL_20241128_004843639-EDIT.jpg",
+    "thumbnail": "assets/images/gallery/PXL_20241128_004843639-EDIT.jpg",
+    "title": "Late Night",
+    "description": "Midnight capture",
+    "alt": "Photo taken on November 28, 2024 at 00:48",
+    "ratio": "square",
+    "date": "2024-11-28",
+    "time": "00:48:43",
+    "location": null
+  },
+  {
+    "src": "assets/images/gallery/PXL_20241205_105347814.NIGHT.jpg",
+    "thumbnail": "assets/images/gallery/PXL_20241205_105347814.NIGHT.jpg",
+    "title": "Night Mode",
+    "description": "Night mode photography",
+    "alt": "Photo taken on December 5, 2024 at 10:53 using night mode",
+    "ratio": "square",
+    "date": "2024-12-05",
+    "time": "10:53:47",
+    "location": null
+  },
+  {
     "src": "assets/images/gallery/cat.jpg",
     "thumbnail": "assets/images/gallery/cat.jpg",
-    "title": "cat",
-    "description": "Brief description of this project or moment",
-    "alt": "Descriptive alt text for accessibility",
-    "ratio": "square"
-  },
-  {
-    "src": "assets/images/gallery/project-2.jpg",
-    "thumbnail": "assets/images/gallery/project-2-thumb.jpg",
-    "title": "Another Project",
-    "description": "Description of this work",
-    "alt": "Alt text",
-    "ratio": "wide"
-  },
-  {
-    "src": "assets/images/gallery/project-3.jpg",
-    "thumbnail": "assets/images/gallery/project-3-thumb.jpg",
-    "title": "Tall Project",
-    "description": "A project with portrait orientation",
-    "alt": "Alt text",
-    "ratio": "tall"
+    "title": "Cat",
+    "description": "A feline friend",
+    "alt": "Photo of a cat",
+    "ratio": "square",
+    "date": null,
+    "time": null,
+    "location": null
   }
 ]
-
-/*
-RATIO OPTIONS:
-- "square" (default) - Regular grid item
-- "wide" - Spans 2 columns
-- "tall" - Spans 2 rows
-
-To use this file:
-1. Add your images to assets/images/gallery/
-2. Create thumbnails (optional, will use src if not specified)
-3. Update this JSON array with your photos
-4. The gallery will automatically display them
-
-Example:
-{
-  "src": "assets/images/gallery/my-photo.jpg",
-  "thumbnail": "assets/images/gallery/my-photo-thumb.jpg",
-  "title": "My Project",
-  "description": "A brief description of what this is",
-  "alt": "Screenshot of my project dashboard",
-  "ratio": "wide"
-}
-*/
