@@ -1,0 +1,23 @@
+{
+  "name": "cv-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio website with TDD implementation",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "test:benchmark": "vitest bench",
+    "test:performance": "vitest run tests/performance/",
+    "test:visual": "vitest run tests/visual/"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "benchmark": "^2.1.4",
+    "happy-dom": "^14.0.0",
+    "jsdom": "^24.0.0",
+    "vitest": "^1.0.0"
+  }
+}

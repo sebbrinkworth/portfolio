@@ -1,3 +1,17 @@
+/**
+ * Escapes HTML special characters to prevent XSS attacks
+ * and ensure safe rendering in the DOM.
+ * 
+ * Time Complexity: O(n) where n is input string length
+ * Space Complexity: O(n) for the output string
+ * 
+ * @param {string} str - Input string to escape
+ * @returns {string} Escaped HTML string
+ * 
+ * @example
+ * escapeHtml('<script>alert("XSS")</script>')
+ * // Returns: '&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;'
+ */
 export function escapeHtml(str) {
   return String(str)
     .replaceAll("&", "&amp;")
