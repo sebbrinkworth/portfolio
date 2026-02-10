@@ -17,9 +17,6 @@
   <title>Gallery — Sebastian Brinkworth</title>
   <meta name="description" content="Photo gallery of work and projects by Sebastian Brinkworth." />
 
-  <!-- View Transitions API -->
-  <meta name="view-transition" content="same-origin" />
-
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -63,6 +60,10 @@
     }
     * {
       box-sizing: border-box;
+    }
+    html {
+      overflow-y: scroll;
+      scrollbar-gutter: stable always;
     }
     html, body {
       height: 100%;
@@ -113,6 +114,9 @@
 </head>
 
 <body>
+  <!-- Timeline Line (continues from CV page) -->
+  <div class="timeline-continues" aria-hidden="true"></div>
+
   <!-- Background Effects -->
   <div id="field-bg" aria-hidden="true">
     <div id="field-grid"></div>

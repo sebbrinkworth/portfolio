@@ -95,7 +95,7 @@ a:hover {
 /* Minimalistic scrollbar - always visible */
 html {
   overflow-y: scroll;
-  scrollbar-gutter: stable;
+  scrollbar-gutter: stable always;
 }
 
 ::-webkit-scrollbar {

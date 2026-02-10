@@ -3,6 +3,29 @@
 /* Force scrollbar to prevent layout shift when navigating between pages */
 html {
   overflow-y: scroll;
+  scrollbar-gutter: stable always;
+}
+
+/* Timeline Line Continues from CV Page */
+.timeline-continues {
+  position: fixed;
+  top: 0;
+  left: 14px;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom,
+    rgb(var(--border) / 0.12) 0%,
+    rgb(var(--border) / 0.12) 70%,
+    transparent 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .timeline-continues {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 /* Gallery Container */
@@ -43,13 +66,6 @@ html {
   border: 1px solid rgb(var(--border) / var(--border-alpha));
   box-shadow: var(--shadow);
   aspect-ratio: 1;
-  transform: translateZ(0);
-  transition: box-shadow 0.3s ease;
-  will-change: transform;
-}
-
-.gallery-item:hover {
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .gallery-item img {
@@ -57,13 +73,7 @@ html {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
-  will-change: transform;
   pointer-events: none;
-}
-
-.gallery-item:hover img {
-  transform: scale(1.05);
 }
 
 /* Aspect ratio variants */
@@ -91,21 +101,17 @@ html {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   background: rgb(var(--bg) / 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
   cursor: pointer;
 }
 
 .lightbox-overlay.active {
-  opacity: 1;
-  pointer-events: all;
+  display: flex;
 }
 
 /* Expanding Image Container - The shared element */
@@ -118,7 +124,6 @@ html {
   box-shadow: 
     0 25px 50px -12px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.1);
-  will-change: left, top, width, height, border-radius;
   cursor: default;
 }
 
@@ -130,62 +135,11 @@ html {
   pointer-events: none;
 }
 
-/* View Transition styling */
-::view-transition-old(lightbox),
-::view-transition-new(lightbox) {
-  animation-duration: 0.5s;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
 
-/* Loading shimmer effect */
-.lightbox-expander.loading::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
 
-/* Reduced Motion support */
-@media (prefers-reduced-motion: reduce) {
-  .gallery-item,
-  .gallery-item img,
-  .lightbox-expander,
-  .lightbox-overlay {
-    transition: none !important;
-    animation: none !important;
-  }
-  
-  .gallery-item:hover img {
-    transform: none;
-  }
-}
 
-/* Touch device optimizations */
-@media (hover: none) and (pointer: coarse) {
-  .gallery-item:hover img {
-    transform: none;
-  }
-  
-  .gallery-item:active img {
-    transform: scale(0.95);
-  }
-}
+
 
 /* Hide unused elements */
 .lightbox-close,

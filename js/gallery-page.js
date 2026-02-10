@@ -1,12 +1,9 @@
 import { initTheme } from './theme.js';
 import { escapeHtml } from './utils.js';
-import { initVectorField } from './vector-field.js';
 
 // Gallery state
 let galleryData = [];
 let currentIndex = 0;
-let isAnimating = false;
-let activeThumbnail = null;
 
 // DOM Elements
 const galleryGrid = document.getElementById('galleryGrid');
@@ -14,28 +11,9 @@ const lightboxOverlay = document.getElementById('lightboxOverlay');
 const lightboxExpander = document.getElementById('lightboxExpander');
 const lightboxImage = document.getElementById('lightboxImage');
 
-// Motion library (loaded from CDN)
-const Motion = window.Motion || {};
-
-// Spring configuration for natural, physics-based animations
-const lightboxSpring = {
-  type: "spring",
-  stiffness: 250,
-  damping: 25,
-  mass: 0.8
-};
-
-const closeSpring = {
-  type: "spring",
-  stiffness: 300,
-  damping: 30,
-  mass: 0.6
-};
-
 // Initialize gallery page
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
-  initVectorField();
 
   const yearEl = document.getElementById('year');
   if (yearEl) {
@@ -44,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadGallery();
   setupEventListeners();
-  handlePageTransition();
 });
 
 // Load gallery data
@@ -120,295 +97,79 @@ function renderGallery() {
     `;
   }).join('');
   
-  // Initialize Motion press gestures on gallery items
-  initializePressGestures();
-}
-
-// Initialize Motion press gestures for smooth interaction
-function initializePressGestures() {
-  if (!Motion.press) return;
-  
+  // Add click handlers to gallery items
   document.querySelectorAll('.gallery-item').forEach(item => {
-    const img = item.querySelector('img');
-    
-    // Use Motion's press for gesture detection with visual feedback
-    Motion.press(item, (element) => {
-      // Animate the press down
-      if (Motion.animate) {
-        Motion.animate(img, { scale: 0.95 }, { duration: 0.15 });
-      } else {
-        img.style.transform = 'scale(0.95)';
-      }
-      
-      return () => {
-        // Animate the release
-        if (Motion.animate) {
-          Motion.animate(img, { scale: 1 }, { 
-            type: "spring",
-            stiffness: 400,
-            damping: 25
-          });
-        } else {
-          img.style.transform = 'scale(1)';
-        }
-      };
-    }, { once: true });
-    
-    // Handle click to open lightbox
     item.addEventListener('click', () => {
-      if (isAnimating) return;
       const index = parseInt(item.dataset.index);
-      activeThumbnail = item.querySelector('img');
       openLightbox(index);
     });
     
     item.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        if (isAnimating) return;
         const index = parseInt(item.dataset.index);
-        activeThumbnail = item.querySelector('img');
         openLightbox(index);
       }
     });
   });
 }
 
-// Open lightbox with shared element transition
-async function openLightbox(index) {
-  if (isAnimating) return;
-  isAnimating = true;
+// Open lightbox (instant, no animation)
+function openLightbox(index) {
   currentIndex = index;
   
   const item = galleryData[currentIndex];
-  
-  // Get thumbnail position
-  const thumbnailRect = activeThumbnail.getBoundingClientRect();
   
   // Set up lightbox image
   lightboxImage.src = item.srcWebp || item.src;
   lightboxImage.alt = item.alt || item.title;
   
-  // Position expander at thumbnail location
-  lightboxExpander.style.position = 'fixed';
-  lightboxExpander.style.left = `${thumbnailRect.left}px`;
-  lightboxExpander.style.top = `${thumbnailRect.top}px`;
-  lightboxExpander.style.width = `${thumbnailRect.width}px`;
-  lightboxExpander.style.height = `${thumbnailRect.height}px`;
-  lightboxExpander.style.borderRadius = '12px';
-  lightboxExpander.style.opacity = '1';
-  
-  // Show overlay with fade
-  lightboxOverlay.classList.add('active');
-  document.body.style.overflow = 'hidden';
-  
-  // Calculate target position
-  const targetRect = calculateTargetRect(thumbnailRect);
-  
-  // Use View Transition API if available, otherwise use Motion animate
-  if (document.startViewTransition && !Motion.animate) {
-    const transition = document.startViewTransition(() => {
-      lightboxExpander.style.left = `${targetRect.left}px`;
-      lightboxExpander.style.top = `${targetRect.top}px`;
-      lightboxExpander.style.width = `${targetRect.width}px`;
-      lightboxExpander.style.height = `${targetRect.height}px`;
-      lightboxExpander.style.borderRadius = '4px';
-    });
-    
-    await transition.finished;
-  } else if (Motion.animate) {
-    // Use Motion's spring animation for natural feel
-    await Promise.all([
-      Motion.animate(lightboxExpander, {
-        left: targetRect.left,
-        top: targetRect.top,
-        width: targetRect.width,
-        height: targetRect.height,
-        borderRadius: 4
-      }, lightboxSpring),
-      Motion.animate(lightboxOverlay, {
-        opacity: 1
-      }, { duration: 0.3 })
-    ]);
-  } else {
-    // Fallback to CSS transition
-    lightboxExpander.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-    lightboxExpander.style.left = `${targetRect.left}px`;
-    lightboxExpander.style.top = `${targetRect.top}px`;
-    lightboxExpander.style.width = `${targetRect.width}px`;
-    lightboxExpander.style.height = `${targetRect.height}px`;
-    lightboxExpander.style.borderRadius = '4px';
-    
-    await new Promise(resolve => setTimeout(resolve, 500));
-    lightboxExpander.style.transition = '';
-  }
-  
-  isAnimating = false;
-}
-
-// Close lightbox with reverse animation
-async function closeLightbox() {
-  if (isAnimating) return;
-  isAnimating = true;
-  
-  // Get current expander position
-  const currentRect = lightboxExpander.getBoundingClientRect();
-  
-  // Get thumbnail position to animate back to
-  const thumbnail = document.querySelector(`.gallery-item[data-index="${currentIndex}"] img`);
-  const targetRect = thumbnail ? thumbnail.getBoundingClientRect() : currentRect;
-  
-  if (Motion.animate) {
-    // Use Motion's spring animation
-    await Promise.all([
-      Motion.animate(lightboxExpander, {
-        left: targetRect.left,
-        top: targetRect.top,
-        width: targetRect.width,
-        height: targetRect.height,
-        borderRadius: 12
-      }, closeSpring),
-      Motion.animate(lightboxOverlay, {
-        opacity: 0
-      }, { duration: 0.25 })
-    ]);
-  } else {
-    // Fallback to CSS transition
-    lightboxExpander.style.transition = 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
-    lightboxExpander.style.left = `${targetRect.left}px`;
-    lightboxExpander.style.top = `${targetRect.top}px`;
-    lightboxExpander.style.width = `${targetRect.width}px`;
-    lightboxExpander.style.height = `${targetRect.height}px`;
-    lightboxExpander.style.borderRadius = '12px';
-    lightboxOverlay.style.transition = 'opacity 0.25s ease';
-    lightboxOverlay.style.opacity = '0';
-    
-    await new Promise(resolve => setTimeout(resolve, 350));
-    lightboxExpander.style.transition = '';
-    lightboxOverlay.style.transition = '';
-  }
-  
-  // Hide overlay
-  lightboxOverlay.classList.remove('active');
-  lightboxOverlay.style.opacity = '';
-  document.body.style.overflow = '';
-  lightboxExpander.style.opacity = '0';
-  
-  isAnimating = false;
-}
-
-// Calculate target position for expander
-function calculateTargetRect(thumbnailRect) {
+  // Position expander at center
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
-  
-  // Calculate max dimensions (leave padding)
   const maxWidth = Math.min(viewportWidth * 0.9, 1200);
   const maxHeight = viewportHeight * 0.8;
   
-  // Get image aspect ratio from thumbnail
-  const aspectRatio = thumbnailRect.width / thumbnailRect.height;
+  lightboxExpander.style.left = `${(viewportWidth - maxWidth) / 2}px`;
+  lightboxExpander.style.top = `${(viewportHeight - maxHeight) / 2}px`;
+  lightboxExpander.style.width = `${maxWidth}px`;
+  lightboxExpander.style.height = `${maxHeight}px`;
+  lightboxExpander.style.borderRadius = '4px';
+  lightboxExpander.style.opacity = '1';
   
-  let targetWidth, targetHeight;
-  
-  if (aspectRatio > maxWidth / maxHeight) {
-    // Width constrained
-    targetWidth = maxWidth;
-    targetHeight = maxWidth / aspectRatio;
-  } else {
-    // Height constrained
-    targetHeight = maxHeight;
-    targetWidth = maxHeight * aspectRatio;
-  }
-  
-  // Center in viewport
-  const targetLeft = (viewportWidth - targetWidth) / 2;
-  const targetTop = (viewportHeight - targetHeight) / 2;
-  
-  return {
-    left: targetLeft,
-    top: targetTop,
-    width: targetWidth,
-    height: targetHeight
-  };
+  // Show overlay
+  lightboxOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
 }
 
-// Navigate to next image
-async function nextImage() {
-  if (isAnimating || galleryData.length <= 1) return;
+// Close lightbox (instant, no animation)
+function closeLightbox() {
+  // Hide overlay
+  lightboxOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+  lightboxExpander.style.opacity = '0';
+}
+
+// Navigate to next image (instant)
+function nextImage() {
+  if (galleryData.length <= 1) return;
   
-  isAnimating = true;
-  
-  // Fade out current image
-  if (Motion.animate) {
-    await Motion.animate(lightboxImage, { opacity: 0 }, { duration: 0.15 });
-  } else {
-    lightboxImage.style.transition = 'opacity 0.15s ease';
-    lightboxImage.style.opacity = '0';
-    await new Promise(resolve => setTimeout(resolve, 150));
-  }
-  
-  // Update index
   currentIndex = (currentIndex + 1) % galleryData.length;
   const item = galleryData[currentIndex];
   
-  // Update thumbnail reference
-  const thumbnail = document.querySelector(`.gallery-item[data-index="${currentIndex}"] img`);
-  if (thumbnail) activeThumbnail = thumbnail;
-  
-  // Update content
   lightboxImage.src = item.src;
   lightboxImage.alt = item.alt || item.title;
-  
-  // Fade in
-  if (Motion.animate) {
-    await Motion.animate(lightboxImage, { opacity: 1 }, { duration: 0.2 });
-  } else {
-    lightboxImage.style.opacity = '1';
-    await new Promise(resolve => setTimeout(resolve, 200));
-    lightboxImage.style.transition = '';
-  }
-  
-  isAnimating = false;
 }
 
-// Navigate to previous image
-async function prevImage() {
-  if (isAnimating || galleryData.length <= 1) return;
+// Navigate to previous image (instant)
+function prevImage() {
+  if (galleryData.length <= 1) return;
   
-  isAnimating = true;
-  
-  // Fade out current image
-  if (Motion.animate) {
-    await Motion.animate(lightboxImage, { opacity: 0 }, { duration: 0.15 });
-  } else {
-    lightboxImage.style.transition = 'opacity 0.15s ease';
-    lightboxImage.style.opacity = '0';
-    await new Promise(resolve => setTimeout(resolve, 150));
-  }
-  
-  // Update index
   currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
   const item = galleryData[currentIndex];
   
-  // Update thumbnail reference
-  const thumbnail = document.querySelector(`.gallery-item[data-index="${currentIndex}"] img`);
-  if (thumbnail) activeThumbnail = thumbnail;
-  
-  // Update content
   lightboxImage.src = item.src;
   lightboxImage.alt = item.alt || item.title;
-  
-  // Fade in
-  if (Motion.animate) {
-    await Motion.animate(lightboxImage, { opacity: 1 }, { duration: 0.2 });
-  } else {
-    lightboxImage.style.opacity = '1';
-    await new Promise(resolve => setTimeout(resolve, 200));
-    lightboxImage.style.transition = '';
-  }
-  
-  isAnimating = false;
 }
 
 // Setup event listeners
@@ -446,12 +207,16 @@ function setupEventListeners() {
 
   // Resize handler
   window.addEventListener('resize', () => {
-    if (lightboxOverlay.classList.contains('active') && !isAnimating) {
-      const targetRect = calculateTargetRect({ width: 0, height: 0 });
-      lightboxExpander.style.left = `${targetRect.left}px`;
-      lightboxExpander.style.top = `${targetRect.top}px`;
-      lightboxExpander.style.width = `${targetRect.width}px`;
-      lightboxExpander.style.height = `${targetRect.height}px`;
+    if (lightboxOverlay.classList.contains('active')) {
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const maxWidth = Math.min(viewportWidth * 0.9, 1200);
+      const maxHeight = viewportHeight * 0.8;
+      
+      lightboxExpander.style.left = `${(viewportWidth - maxWidth) / 2}px`;
+      lightboxExpander.style.top = `${(viewportHeight - maxHeight) / 2}px`;
+      lightboxExpander.style.width = `${maxWidth}px`;
+      lightboxExpander.style.height = `${maxHeight}px`;
     }
   });
   
@@ -479,25 +244,6 @@ function setupEventListeners() {
         prevImage();
       }
     }
-  }
-}
-
-// Handle page transition with View Transitions API
-function handlePageTransition() {
-  const galleryNav = document.querySelector('.gallery-nav');
-  const supportsViewTransitions = 'startViewTransition' in document;
-
-  if (galleryNav) {
-    galleryNav.addEventListener('click', (e) => {
-      if (!supportsViewTransitions) return;
-
-      e.preventDefault();
-      const href = galleryNav.getAttribute('href');
-
-      document.startViewTransition(() => {
-        window.location.href = href;
-      });
-    });
   }
 }
 

@@ -18,9 +18,6 @@
   <meta name="description"
     content="Sebastian Brinkworth — Full-Stack Engineer focused on modern web architectures and AI-assisted engineering." />
 
-  <!-- View Transitions API -->
-  <meta name="view-transition" content="same-origin" />
-
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -65,6 +62,10 @@
     }
     * {
       box-sizing: border-box;
+    }
+    html {
+      overflow-y: scroll;
+      scrollbar-gutter: stable always;
     }
     html, body {
       height: 100%;
@@ -133,65 +134,7 @@
       .subtitle { font-size: 20px; }
     }
     
-    /* Loading Animation */
-    .loading-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgb(var(--bg));
-      opacity: 1;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
-    }
-    
-    .loading-overlay.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    
-    /* Loading line matches the timeline line exactly */
-    .loading-line {
-      position: fixed;
-      top: 0;
-      left: 14px;
-      width: 1px;
-      height: 0%;
-      background: rgb(var(--border) / 0.12);
-      z-index: 10000;
-      box-shadow: 0 0 10px rgb(var(--border) / 0.2);
-    }
-    
-    @media (min-width: 768px) {
-      .loading-line {
-        left: 50%;
-        transform: translateX(-50%);
-      }
-    }
-    
-    /* Main content - default visible, hidden during loading */
-    .wrap, footer, .theme-toggle, .gallery-nav {
-      opacity: 1;
-    }
-    
-    body.loading .wrap,
-    body.loading footer,
-    body.loading .theme-toggle,
-    body.loading .gallery-nav {
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    
-    body.loaded .wrap,
-    body.loaded footer,
-    body.loaded .theme-toggle,
-    body.loaded .gallery-nav {
-      opacity: 1;
-      transition: opacity 0.8s ease;
-    }
-    
+
 
   </style>
   
@@ -207,18 +150,6 @@
 </head>
 
 <body>
-  <!-- Loading Animation Overlay -->
-  <div id="loading-overlay" class="loading-overlay" aria-hidden="true">
-    <div class="loading-line"></div>
-  </div>
-  
-  <noscript>
-    <style>
-      #loading-overlay { display: none !important; }
-      body.loading .wrap, body.loading footer, body.loading .theme-toggle, body.loading .gallery-nav { opacity: 1 !important; }
-    </style>
-  </noscript>
-
   <!-- Background Effects -->
   <div id="field-bg" aria-hidden="true">
     <div id="field-grid"></div>
@@ -256,7 +187,7 @@
       <h1>Sebastian Brinkworth</h1>
 
       <p class="subtitle">
-        Full-Stack Engineer leveraging AI to accelerate the loop
+        Full-Stack Engineer leveraging AI to accelerate results
         <small>AI-Powered Development • Clean Code • Chill Vibes</small>
       </p>
     </header>
@@ -347,27 +278,9 @@
     <p class="copy">© <span id="year"></span> Sebastian Brinkworth.</p>
   </footer>
 
-  <!-- Motion Library -->
-  <script type="module">
-    import { animate, spring } from 'https://cdn.jsdelivr.net/npm/motion@12.4.2/+esm';
-    window.Motion = { animate, spring };
-    window.MotionReady = true;
-  </script>
-  
   <!-- Scripts -->
   <script type="module" src="js/main.js"></script>
   
-  <!-- Safety net: Force loading to complete after 5 seconds max -->
-  <script>
-    setTimeout(function() {
-      document.body.classList.remove('loading');
-      document.body.classList.add('loaded');
-      var overlay = document.getElementById('loading-overlay');
-      if (overlay) {
-        overlay.classList.add('hidden');
-      }
-    }, 5000);
-  </script>
 </body>
 
 </html>

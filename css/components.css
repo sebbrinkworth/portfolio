@@ -15,7 +15,6 @@
   box-shadow: var(--shadow);
   cursor: pointer;
   color: rgb(var(--fg) / 0.8);
-  transition: transform 180ms ease, color 180ms ease;
 }
 
 .theme-toggle:hover {
@@ -45,7 +44,7 @@
   box-shadow: var(--shadow);
   cursor: pointer;
   color: rgb(var(--fg) / 0.8);
-  transition: color 180ms ease, background 200ms ease;
+  text-decoration: none;
 }
 
 .gallery-nav:hover {
@@ -90,27 +89,7 @@
   width: 100%;
   height: 100%;
   border-radius: 999px;
-  transform-style: preserve-3d;
-  transition: transform 0.6s var(--expo-out);
-}
-
-.avatar.flipped .avatar-inner {
-  transform: rotateY(180deg);
-}
-
-.avatar-front,
-.avatar-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 999px;
   overflow: hidden;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.avatar-back {
-  transform: rotateY(180deg);
 }
 
 .avatar img {
@@ -118,7 +97,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transform: translateZ(0);
 }
 
 /* Card */
@@ -227,7 +205,6 @@
   background: rgb(var(--bg));
   border: 2px solid rgb(var(--border) / 0.22);
   transform: translateX(-50%);
-  transition: transform 220ms ease, border-color 220ms ease;
   z-index: 2;
 }
 
@@ -235,11 +212,6 @@
   .t-dot {
     left: 50%;
   }
-}
-
-.t-item:hover .t-dot {
-  transform: translateX(-50%) scale(1.25);
-  border-color: rgb(var(--primary));
 }
 
 .t-date {
@@ -260,7 +232,6 @@
   font-size: 20px;
   font-weight: 800;
   color: rgb(var(--fg) / 0.92);
-  transition: color 180ms ease;
 }
 
 .t-item:hover .t-content h3 {
@@ -361,8 +332,11 @@
   color: rgb(var(--fg) / 0.45);
 }
 
-.skill:hover .ms,
 .skill:hover {
+  color: rgb(var(--primary));
+}
+
+.skill:hover .ms {
   color: rgb(var(--primary));
 }
 
@@ -491,12 +465,10 @@ footer {
   background: rgb(var(--bg));
   border: 2px solid rgb(var(--border) / 0.22);
   transform: translateX(-50%);
-  transition: transform 220ms ease, border-color 220ms ease;
   z-index: 2;
 }
 
 .education-item:hover .t-dot {
-  transform: translateX(-50%) scale(1.25);
   border-color: rgb(var(--primary));
 }
 
@@ -505,7 +477,6 @@ footer {
   font-size: 20px;
   font-weight: 800;
   color: rgb(var(--fg) / 0.92);
-  transition: color 180ms ease;
 }
 
 .education-item:hover .t-content h3 {

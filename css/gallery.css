@@ -21,13 +21,7 @@
   border: 1px solid rgb(var(--border) / var(--border-alpha));
   background: rgb(var(--card) / var(--card-alpha));
   box-shadow: var(--shadow);
-  transition: transform 200ms ease, box-shadow 200ms ease;
-}
 
-.gallery-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
 
 .gallery-item img {
   width: 100%;
@@ -80,7 +74,6 @@
   font-size: 20px;
   display: grid;
   place-items: center;
-  transition: background 200ms ease;
 }
 
 .lightbox-close:hover {
