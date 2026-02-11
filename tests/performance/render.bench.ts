@@ -1,7 +1,7 @@
 import { bench, describe, beforeEach } from 'vitest';
-import { escapeHtml } from '../../js/utils';
-import { loadTimeline } from '../../js/timeline';
-import { loadSkills } from '../../js/skills';
+import { escapeHtml } from '../../ts/utils';
+import { loadTimeline } from '../../ts/timeline';
+import { loadSkills } from '../../ts/skills';
 
 describe('Rendering Performance', () => {
   beforeEach(() => {
