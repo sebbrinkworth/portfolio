@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { loadTimeline } from '../../js/timeline';
+import { loadTimeline } from '../../ts/timeline';
 
 describe('loadTimeline', () => {
   beforeEach(() => {

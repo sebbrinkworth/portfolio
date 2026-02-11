@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { loadSkills } from '../../js/skills';
+import { loadSkills } from '../../ts/skills';
 
 describe('loadSkills', () => {
   beforeEach(() => {
