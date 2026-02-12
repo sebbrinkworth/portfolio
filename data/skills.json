@@ -15,5 +15,10 @@
   { "icon": "hub", "label": "Azure DevOps" },
   { "icon": "deployed_code", "label": "Docker" },
   { "icon": "auto_awesome", "label": "LLM Tooling / AI Agents" },
-  { "icon": "brush", "label": "CSS Systems" }
+  { "icon": "palette", "label": "Tailwind CSS" },
+  { "icon": "palette", "label": "Sass" },
+  { "icon": "palette", "label": "Material Design" },
+  { "icon": "palette", "label": "Bootstrap" },
+  { "icon": "bug_report", "label": "Jest" },
+  { "icon": "task", "label": "JIRA" }
 ]

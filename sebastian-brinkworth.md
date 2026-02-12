@@ -9,10 +9,10 @@ QA automation and full-stack engineer with 5+ years delivering TypeScript web ap
 
 ## Technical Skills
 *   **Automation & Testing:** Playwright, Cypress, Jest, test architecture (POM/fixtures), DB assertions (SQL), Zod (validation), Spec-driven development (SDD), LLM-assisted test generation/review (multi-agent workflows)
-*   **Core:** TypeScript, JavaScript, Node.js, Angular (2+, incl. 16+), React, HTML5, CSS3
-*   **Backend:** .NET, Java, Spring Boot
+*   **Core:** TypeScript, JavaScript, Node.js, Angular (2+, incl. 16+), React, Ionic, HTML5, CSS3
+*   **Backend:** .NET, Java, Spring Boot, REST APIs
 *   **Styling:** Tailwind CSS, Sass, Material Design, Bootstrap
-*   **Tools:** Git, Azure DevOps (Boards/Pipelines), JIRA
+*   **Tools:** Git, Azure DevOps (Boards/Pipelines), Docker, JIRA
 
 ## Professional Experience
 
