@@ -1,11 +1,11 @@
 # Sebastian Brinkworth
 **QA Automation + AI Engineer (Playwright/TypeScript) • Full-Stack Engineer**  
-EU work authorization (Italy) • Remote-first
+EU work authorization • Remote-first 
 
 [fancy cv](https://brinkworth.tech/) | [email](mailto:sebastian.brinkworth@gmail.com) | [github](https://github.com/sebbrinkworth/)
 
 ## Summary
-QA automation and full-stack engineer with 5+ years delivering TypeScript web applications and production-grade test automation. Specializes in Playwright frameworks and LLM-assisted workflows for test generation and review (structured prompting, skills, context-window management, subagents), aiming to speed up delivery without sacrificing determinism or code quality. Comfortable across frontend architecture (Angular/React), backend services (.NET/Java/Spring Boot), and release-safety practices such as direct DB verification and dual-environment checks. Argentinian native.
+QA automation and full-stack engineer with 5+ years building TypeScript web apps and production-grade test automation. I design Playwright frameworks and LLM-assisted workflows for test generation and review (prompting, agent decomposition, context management) that improve throughput without compromising determinism or maintainability. Experienced across Angular/React, backend services (.NET/Java/Spring Boot), and release-validation automation such as data integrity assertions and cross-environment verification.
 
 ## Technical Skills
 *   **Automation & Testing:** Playwright, Cypress, Jest, test architecture (POM/fixtures), DB assertions (SQL), Zod (validation), Spec-driven development (SDD), LLM-assisted test generation/review (multi-agent workflows)
@@ -51,4 +51,3 @@ QA automation and full-stack engineer with 5+ years delivering TypeScript web ap
 ## Languages
 *   **Spanish** (Native)
 *   **English** (Fluent)
-*   **Portuguese** (Beginner)

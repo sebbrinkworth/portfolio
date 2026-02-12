@@ -16,6 +16,7 @@ export interface TimelineItem {
   org: string;
   location: string;
   desc: string;
+  skills?: string[];
 }
 
 /** Represents a gallery image entry from gallery.json */

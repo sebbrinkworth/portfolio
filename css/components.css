@@ -108,8 +108,8 @@
   background: rgb(var(--card) / var(--card-alpha));
   box-shadow: var(--shadow);
   padding: 22px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
 
   /* Added for horizontal alignment */
   text-align: center;
@@ -136,25 +136,30 @@
   text-align: center;
 }
 
+
 .timeline-body {
   position: relative;
   display: flow-root;
+  padding-top: 3rem;
+  margin-bottom: 80px;
 }
 
 /* Timeline line - starts at Professional Timeline section, continues through to Education */
-.timeline-body {
-  position: relative;
-}
 
 .timeline-body::before {
   content: "";
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: -80px;
   left: 14px;
   width: 1px;
-  background: rgb(var(--border) / 0.12);
-  z-index: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--border) / 0.22) 0%,
+    rgb(var(--border) / 0.22) calc(100% - 60px),
+    transparent 100%
+  );
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -162,6 +167,13 @@
   .timeline-body::before {
     left: 50%;
     transform: translateX(-50%);
+    bottom: -80px;
+    background: linear-gradient(
+      to bottom,
+      rgb(var(--border) / 0.22) 0%,
+      rgb(var(--border) / 0.22) calc(100% - 60px),
+      transparent 100%
+    );
   }
 }
 
@@ -202,6 +214,7 @@
   border: 2px solid rgb(var(--border) / 0.22);
   transform: translateX(-50%);
   z-index: 2;
+  transition: border-color 0.3s ease;
 }
 
 @media (min-width: 768px) {
@@ -221,6 +234,7 @@
   color: rgb(var(--fg) / 0.7);
   letter-spacing: 0.04em;
   box-shadow: var(--shadow);
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .t-content h3 {
@@ -228,10 +242,20 @@
   font-size: 20px;
   font-weight: 800;
   color: rgb(var(--fg) / 0.92);
+  transition: color 0.3s ease;
 }
 
 .t-item:hover .t-content h3 {
   color: rgb(var(--primary));
+}
+
+.t-item:hover .t-dot {
+  border-color: rgb(var(--primary));
+}
+
+.t-item:hover .t-date {
+  color: rgb(var(--primary));
+  border-color: rgb(var(--primary) / var(--border-alpha));
 }
 
 .t-meta {
@@ -248,6 +272,52 @@
   color: rgb(var(--fg) / 0.62);
 }
 
+/* Timeline skill badges */
+.t-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .t-skills {
+    margin-top: 0;
+    align-self: start;
+  }
+}
+
+.t-skill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--border) / var(--border-alpha));
+  background: rgb(var(--card) / var(--card-alpha));
+  color: rgb(var(--fg) / 0.7);
+  font-size: 11px;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.t-skill-badge .ms {
+  font-size: 14px;
+  color: rgb(var(--fg) / 0.45);
+  transition: color 0.2s ease;
+}
+
+.t-skill-badge:hover {
+  color: rgb(var(--primary));
+}
+
+.t-skill-badge:hover .ms {
+  color: rgb(var(--primary));
+}
+
 @media (min-width: 768px) {
   .t-item.left .t-date-wrap {
     grid-column: 1;
@@ -261,6 +331,13 @@
     text-align: right;
   }
 
+  .t-item.left .t-skills {
+    grid-column: 2;
+    justify-self: start;
+    justify-content: flex-start;
+    padding-left: 2rem;
+  }
+
   .t-item.right .t-date-wrap {
     grid-column: 2;
     justify-self: start;
@@ -271,6 +348,14 @@
     grid-column: 2;
     justify-self: start;
     text-align: left;
+  }
+
+  .t-item.right .t-skills {
+    grid-column: 1;
+    justify-self: end;
+    justify-content: flex-end;
+    width: 100%;
+    padding-right: 2rem;
   }
 }
 
@@ -360,6 +445,11 @@ footer {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgb(var(--fg) / 0.82);
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: rgb(var(--primary));
 }
 
 .dot {

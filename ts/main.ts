@@ -1,6 +1,5 @@
 import { initTheme } from './theme';
 import { loadTimeline } from './timeline';
-import { loadSkills } from './skills';
 import { initRouter, registerRoute, navigateTo } from './router';
 import { galleryCache, viewState } from './app-state';
 import { escapeHtml } from './utils';
@@ -41,7 +40,6 @@ async function initApp(): Promise<void> {
   
   // Load initial data for home view
   loadTimeline();
-  loadSkills();
   
   // Setup gallery event listeners
   setupGalleryEventListeners();
