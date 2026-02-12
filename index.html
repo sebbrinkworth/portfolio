@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <script>
-    (function() {
+    (function () {
       const theme = localStorage.getItem('theme');
       if (theme === 'dark') {
         document.documentElement.classList.add('dark');
@@ -21,11 +21,14 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  
+
   <!-- Preload critical fonts -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" as="style" />
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" as="style" />
-  
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
+    as="style" />
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    as="style" />
+
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
@@ -50,6 +53,7 @@
       --radius: 18px;
       --expo-out: linear(0 0%, 0.1684 2.66%, 0.3165 5.49%, 0.446 8.52%, 0.5581 11.78%, 0.6535 15.29%, 0.7341 19.11%, 0.8011 23.3%, 0.8557 27.93%, 0.8962 32.68%, 0.9283 38.01%, 0.9529 44.08%, 0.9711 51.14%, 0.9833 59.06%, 0.9915 68.74%, 1 100%);
     }
+
     html.dark {
       --bg: 26 24 20;
       --fg: 240 242 246;
@@ -60,17 +64,22 @@
       --border-alpha: 0.08;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
     }
+
     * {
       box-sizing: border-box;
     }
+
     html {
       overflow-y: scroll;
       scrollbar-gutter: stable always;
     }
-    html, body {
+
+    html,
+    body {
       height: 100%;
       min-height: 100vh;
     }
+
     body {
       margin: 0;
       background: rgb(var(--bg));
@@ -82,12 +91,14 @@
       min-height: 100vh;
       font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
+
     .ms {
       font-family: "Material Symbols Outlined";
       font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
       font-size: 20px;
       line-height: 1;
     }
+
     .subtitle small {
       display: block;
       margin-top: 10px;
@@ -97,6 +108,7 @@
       text-transform: uppercase;
       font-size: 12px;
     }
+
     .wrap {
       position: relative;
       z-index: 10;
@@ -108,11 +120,13 @@
       align-items: center;
       width: 100%;
     }
+
     header {
       width: 100%;
       text-align: center;
       margin-bottom: 48px;
     }
+
     h1 {
       margin: 0;
       font-size: 40px;
@@ -120,6 +134,7 @@
       font-weight: 800;
       text-transform: uppercase;
     }
+
     .subtitle {
       margin: 14px auto 0;
       max-width: 42rem;
@@ -128,27 +143,38 @@
       font-weight: 600;
       line-height: 1.6;
     }
+
     @media (min-width: 768px) {
-      .wrap { padding: 80px var(--pad) 40px; }
-      h1 { font-size: 54px; }
-      .subtitle { font-size: 20px; }
+      .wrap {
+        padding: 80px var(--pad) 40px;
+      }
+
+      h1 {
+        font-size: 54px;
+      }
+
+      .subtitle {
+        font-size: 20px;
+      }
     }
-    
+
     /* SPA View Management */
     .view {
       display: none;
       width: 100%;
     }
+
     .view.active {
       display: block;
     }
-    
+
     /* Gallery view header */
     .gallery-header {
       width: 100%;
       text-align: center;
       margin-bottom: 48px;
     }
+
     .gallery-header h1 {
       margin: 0;
       font-size: 40px;
@@ -156,14 +182,18 @@
       font-weight: 800;
       text-transform: uppercase;
     }
+
     .gallery-header .subtitle {
       margin-top: 14px;
     }
+
     @media (min-width: 768px) {
-      .gallery-header h1 { font-size: 54px; }
+      .gallery-header h1 {
+        font-size: 54px;
+      }
     }
   </style>
-  
+
   <!-- Non-critical CSS loaded asynchronously -->
   <link rel="preload" href="css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
   <link rel="preload" href="css/effects.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
@@ -204,8 +234,7 @@
       <div class="avatar" id="avatar">
         <div class="avatar-inner">
           <div class="avatar-front">
-            <img
-              id="avatarImg"
+            <img id="avatarImg"
               data-light="https://media.licdn.com/dms/image/v2/D4D03AQEBOadLjIA1mw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1698687439219?e=1772064000&v=beta&t=jBN2grkOKQn4eL3K4xqvrDXz_Uby5huL7W_jqAHjsR8"
               data-dark="https://github.com/sebbrinkworth.png"
               src="https://media.licdn.com/dms/image/v2/D4D03AQEBOadLjIA1mw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1698687439219?e=1772064000&v=beta&t=jBN2grkOKQn4eL3K4xqvrDXz_Uby5huL7W_jqAHjsR8"
@@ -229,11 +258,10 @@
     <!-- About -->
     <section class="card" aria-label="About">
       <p>
-        web dev dabbling into automation and leveraging AI to empower it<br>
-        obsessed with learning about this new way of doing things
-        and eager to see where it leads us <br>
-        currently looking for teams that believe that AI powered development is the future and take part in an
-        environment we can all learn and grow together
+        web dev expanding into automation and AI-augmented engineering </br>
+        deeply curious about how LLMs are reshaping software development and eager to be part of teams building in this
+        new paradigm </br>
+        looking for collaborative environments that embrace AI tooling as a competitive advantage
       </p>
     </section>
 
