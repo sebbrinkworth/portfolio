@@ -13,3 +13,5 @@ node_modules/
 coverage/
 dist/
 *.js.map
+.vercel
+.env*.local
